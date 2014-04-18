@@ -18,7 +18,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter{
             return new StartActivity();
         case 1:
            //Fragment for Stats Tab
-            return new StatsActivity();
+            return new HikesActivity();
         case 2:
             //Fragment for StatsGlobal Tab
             return new StatsGlobalActivity();
