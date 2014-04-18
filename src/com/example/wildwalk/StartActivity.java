@@ -1,5 +1,6 @@
 package com.example.wildwalk;
 
+import com.example.wildwalk.model.LocationData;
 import com.google.android.gms.common.ConnectionResult;
 
 import android.annotation.SuppressLint;
@@ -38,6 +39,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				Toast toast = Toast.makeText(context, "START", Toast.LENGTH_SHORT);
 				toast.show();
 				this.getLocation();
+				loc.startRando();
 			}
 
 			private void getLocation() {
