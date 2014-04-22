@@ -29,6 +29,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private Context context;
 	private Spinner spinner;
 	private TextView location;
+	private String chronometre;
 	private TextView hours;
 	LocationData loc;
 	private String hikeType;
@@ -37,6 +38,8 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private int resetChrono=0;
 	private CharSequence tempTime = "00:00";
 	long timeWhenStopped=0;
+	private int sec=0;
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context= this.getActivity();
 		
@@ -45,13 +48,13 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		btnStart = (Button) start.findViewById(R.id.btnStart);
 		spinner = (Spinner) start.findViewById(R.id.spinner1);
 		//hours = (long) start.findViewById(R.id.);
-		hours = (TextView) start.findViewById(R.id.hours);
+		hours = ((TextView) start.findViewById(R.id.hours));
 		loc = new LocationData(this, context);
 		chrono = (Chronometer)start.findViewById(R.id.chronometer1);
 		//chrono.setFormat("00:00:00");
 		//chrono.setBase(SystemClock.elapsedRealtime());
 		loc.connect();
-		
+		chrono.setVisibility(View.INVISIBLE);
 		
 
 		
@@ -72,9 +75,12 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 			@Override
 			public void onChronometerTick(Chronometer arg0) {
 				
-				long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
-				long heures=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/3600;
-				//hours.setText(heures);
+				long secondes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)%60;		
+				long minutes=(((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60)%60;
+				long heures= ((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/3600;
+
+				chronometre = heures+" H, "+minutes+" M, "+secondes+" S ";
+				hours.setText(chronometre);
 				
 			}
 			
