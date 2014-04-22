@@ -2,12 +2,17 @@ package com.example.wildwalk;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class HikesActivity extends Fragment {
 	
@@ -34,6 +39,27 @@ public class HikesActivity extends Fragment {
 
         hikeListView.setAdapter(adapter);
         
+        hikeListView.setOnItemClickListener( new OnItemClickListener()
+        {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position,
+                    long id) 
+            {
+            	Hike entry= (Hike) parent.getAdapter().getItem(position);
+            	 Intent intent = new Intent(v.getContext(), HikeStatActivity.class);
+            	 intent.putExtra("Hike", entry);
+                 startActivity(intent);
+            }
+        } );
+        
         return stats;
+        
+        
+         
     }
+    
+    
+    
+    
 }

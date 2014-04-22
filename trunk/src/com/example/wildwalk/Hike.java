@@ -1,8 +1,10 @@
 package com.example.wildwalk;
 
+import java.io.Serializable;
+
 import android.database.Cursor;
 
-public class Hike {
+public class Hike implements Serializable{
 
 	public static final String TABLE_NAME = "HIKE";
 	public static final String COL_ID = "id_hike";

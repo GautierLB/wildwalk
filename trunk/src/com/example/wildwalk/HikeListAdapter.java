@@ -17,6 +17,7 @@ public class HikeListAdapter extends BaseAdapter {
 	private Context m_context; 
     private int m_layoutResourceId;
     List<Hike> m_hikeList;
+    public ViewHolder m_holder;
     
     public HikeListAdapter(Context context, int layoutResourceId, List<Hike> hikeList) {
         this.m_layoutResourceId = layoutResourceId;
@@ -24,45 +25,42 @@ public class HikeListAdapter extends BaseAdapter {
         this.m_hikeList = hikeList;
     }
     
+    
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	
-    	ViewHolder holder;
+    	
         
         if(convertView == null)
         {
-        	holder = new ViewHolder();	
+        	m_holder = new ViewHolder();	
         	LayoutInflater inflater = (LayoutInflater)m_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        	
-        	if (position%2 == 0){
-        		convertView = inflater.inflate(R.layout.activity_listview_cell_left, parent, false);
-        	}
-        	else if (position%2 == 1){
-        		convertView = inflater.inflate(R.layout.activity_listview_cell_right, parent, false);
-        	}
+        	convertView = inflater.inflate(R.layout.activity_listview_cell_left, parent, false);
             
-            holder.imageHike = (ImageView)convertView.findViewById(R.id.imageHike);
-            holder.nameHike = (TextView)convertView.findViewById(R.id.nameHike);
-            holder.dateHike = (TextView)convertView.findViewById(R.id.dateHike);
-            holder.kmHike = (TextView)convertView.findViewById(R.id.kmHike);
-            holder.position = (TextView)convertView.findViewById(R.id.position);
+        	m_holder.imageHike = (ImageView)convertView.findViewById(R.id.imageHike);
+            m_holder.nameHike = (TextView)convertView.findViewById(R.id.nameHike);
+            m_holder.dateHike = (TextView)convertView.findViewById(R.id.dateHike);
+            m_holder.kmHike = (TextView)convertView.findViewById(R.id.kmHike);
+            m_holder.position = (TextView)convertView.findViewById(R.id.position);
               
-            convertView.setTag(holder);
+            convertView.setTag(m_holder);
         }
         
         else {
-            holder = (ViewHolder) convertView.getTag();
+            m_holder = (ViewHolder) convertView.getTag();
         }
         
         
-        holder.imageHike.setId(m_hikeList.get(position).getImageHike());
-        holder.nameHike.setText(m_hikeList.get(position).getNameHike());
-        holder.dateHike.setText(String.valueOf(m_hikeList.get(position).getDateHike()));
-        holder.kmHike.setText(String.valueOf(m_hikeList.get(position).getKmHike()));
-        holder.position.setText(String.valueOf(position));
+        m_holder.imageHike.setId(m_hikeList.get(position).getImageHike());
+        m_holder.nameHike.setText(m_hikeList.get(position).getNameHike());
+        m_holder.dateHike.setText(String.valueOf(m_hikeList.get(position).getDateHike()));
+        m_holder.kmHike.setText(String.valueOf(m_hikeList.get(position).getKmHike()));
+        m_holder.position.setText(String.valueOf(position));
         
 
         return convertView;
+        
+        
         
     }
         
@@ -78,7 +76,7 @@ public class HikeListAdapter extends BaseAdapter {
         return position;
     }
    
-	private class ViewHolder {
+	public class ViewHolder {
 		ImageView imageHike;
 	    TextView nameHike;
 	    TextView dateHike;
