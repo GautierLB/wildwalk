@@ -14,6 +14,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,11 +29,14 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private Context context;
 	private Spinner spinner;
 	private TextView location;
+	private TextView hours;
 	LocationData loc;
 	private String hikeType;
 	private Chronometer chrono;
 	private int chronoState = 0;
-	
+	private int resetChrono=0;
+	private CharSequence tempTime = "00:00";
+	long timeWhenStopped=0;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context= this.getActivity();
 		
@@ -40,16 +44,18 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		location =((TextView) start.findViewById(R.id.textView));
 		btnStart = (Button) start.findViewById(R.id.btnStart);
 		spinner = (Spinner) start.findViewById(R.id.spinner1);
+		//hours = (long) start.findViewById(R.id.);
+		hours = (TextView) start.findViewById(R.id.hours);
 		loc = new LocationData(this, context);
 		chrono = (Chronometer)start.findViewById(R.id.chronometer1);
+		//chrono.setFormat("00:00:00");
+		//chrono.setBase(SystemClock.elapsedRealtime());
 		loc.connect();
 		
-		chrono.setOnChronometerTickListener(new OnChronometerTickListener() {
-		    public void onChronometerTick(Chronometer cArg) {
-		        long t = SystemClock.elapsedRealtime() - cArg.getBase();
-		        cArg.setText(DateFormat.format("kk:mm:ss", t));
-		    }
-		});
+		
+
+		
+		
 		
 		// On récupère l'élément selectionné dans le spinner
 				spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -60,6 +66,19 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				    public void onNothingSelected(AdapterView<?> parent) {
 				    }
 				});
+		
+		chrono.setOnChronometerTickListener(new OnChronometerTickListener(){
+
+			@Override
+			public void onChronometerTick(Chronometer arg0) {
+				
+				long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
+				long heures=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/3600;
+				//hours.setText(heures);
+				
+			}
+			
+		});
 				
 		// long press button
 		btnStart.setOnLongClickListener(new OnLongClickListener() { 
@@ -69,8 +88,10 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					Toast toastStop = Toast.makeText(context, "La randonnée à durée : " + chrono.getText(), Toast.LENGTH_SHORT);
 					toastStop.show();
 					btnStart.setText("START");
-					chrono.stop();
 					chrono.setBase(SystemClock.elapsedRealtime()); // on reset à 00:00
+					chrono.stop();
+					chronoState = 0;
+					timeWhenStopped =0;
 					return true;
 			}
 		});
@@ -83,9 +104,14 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				switch (chronoState) {
 				case 0:
 					// START
+					
 					Toast toastStart = Toast.makeText(context, "New hike : "+ hikeType, Toast.LENGTH_SHORT);
 					toastStart.show();
+					
+					chrono.setBase(SystemClock.elapsedRealtime()+timeWhenStopped);
 					chrono.start();
+					
+					
 					btnStart.setText("PAUSE");
 					chronoState = 1;
 					this.getLocation();
@@ -93,8 +119,12 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					
 				case 1: 
 					// PAUSE
-					Toast toastPause = Toast.makeText(context, "Maintenez appuyer pour Stopper", Toast.LENGTH_SHORT);
-					toastPause.show();			
+					
+					long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
+					
+					Toast toastPause = Toast.makeText(context, "Maintenez appuyer pour Stopper " + chrono.getText() +"| "+ minutes, Toast.LENGTH_SHORT);
+					toastPause.show();
+					timeWhenStopped = chrono.getBase() - SystemClock.elapsedRealtime();
 					chrono.stop();
 					btnStart.setText("CONTINUE");
 					chronoState = 0;
