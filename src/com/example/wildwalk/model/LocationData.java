@@ -152,7 +152,7 @@ public class LocationData implements
 	public void onLocationChanged(Location location) {
 		Point next = new Point(1, location.getLatitude(),
 				location.getAltitude(), location.getLongitude());
-		m_hike.addPoint();
+		//m_hike.addPoint();
 
 	}
 }
