@@ -22,6 +22,7 @@ public class MainActivity extends FragmentActivity{
         setContentView(R.layout.activity_main);
         TabAdapter = new TabPagerAdapter(getSupportFragmentManager());
         
+
         Tab = (ViewPager)findViewById(R.id.pager);
         
         Tab.setOnPageChangeListener( new ViewPager.SimpleOnPageChangeListener() {
