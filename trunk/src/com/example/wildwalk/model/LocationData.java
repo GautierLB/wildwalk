@@ -77,10 +77,10 @@ public class LocationData implements
 	public void startRando(String hikeType) {
 		if (m_locationClient.isConnected()) {
 			Location currentLocation = m_locationClient.getLastLocation();
-			Point start = new Point(1, currentLocation.getLatitude(),
+			Point start = new Point(currentLocation.getLatitude(),
 					currentLocation.getAltitude(),
 					currentLocation.getLongitude());
-			Section first = new Section(1, start);
+			Section first = new Section(start);
 			m_updatesRequested = true;
 			this.requestUpdates();
 			if (hikeType.equals("Foot")) {
@@ -102,24 +102,21 @@ public class LocationData implements
 		}
 
 	}
-	
-	public void stopRando()
-	{
+
+	public void stopRando() {
 		m_hike.stop();
-		 // If the client is connected
-        if (m_locationClient.isConnected()) {
-            /*
-             * Remove location updates for a listener.
-             * The current Activity is the listener, so
-             * the argument is "this".
-             */
-            m_locationClient.removeLocationUpdates(this);
-        }
-        /*
-         * After disconnect() is called, the client is
-         * considered "dead".
-         */
-        m_locationClient.disconnect();
+		// If the client is connected
+		if (m_locationClient.isConnected()) {
+			/*
+			 * Remove location updates for a listener. The current Activity is
+			 * the listener, so the argument is "this".
+			 */
+			m_locationClient.removeLocationUpdates(this);
+		}
+		/*
+		 * After disconnect() is called, the client is considered "dead".
+		 */
+		m_locationClient.disconnect();
 	}
 
 	public void connect() {
@@ -150,9 +147,11 @@ public class LocationData implements
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Point next = new Point(1, location.getLatitude(),
-				location.getAltitude(), location.getLongitude());
-		//m_hike.addPoint();
+		if (m_hike != null) {
+			Point next = new Point(location.getLatitude(),
+					location.getAltitude(), location.getLongitude());
+			m_hike.addPoint(next);
+		}
 
 	}
 }
