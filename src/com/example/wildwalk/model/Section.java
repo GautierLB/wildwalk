@@ -1,22 +1,14 @@
 package com.example.wildwalk.model;
 
 public class Section {
-	private int m_idSection;
 	private Point m_firstPoint;
 	private Point m_lastPoint;
 	
-	public Section (int id, Point firstPoint)
+	public Section (Point firstPoint)
 	{
-		this.m_idSection = id;
 		this.m_firstPoint = firstPoint;
 	}
 	
-	/**
-	 * @return the m_idSection
-	 */
-	public int getidSection() {
-		return m_idSection;
-	}
 	/**
 	 * @return the m_firstPoint
 	 */
@@ -26,8 +18,12 @@ public class Section {
 	/**
 	 * @return the m_lastPoint
 	 */
-	public Point getlastPoint() {
+	public Point getLastPoint() {
 		return m_lastPoint;
+	}
+
+	public void setLastPoint(Point m_lastPoint) {
+		this.m_lastPoint = m_lastPoint;
 	}
 	
 }

@@ -4,28 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Hike {
-	private int m_idHike;
 	private String m_nameHike;
 	private Date m_dateHike;
+	private Section m_currentSection;
 	private double m_kmHike;
 	protected int m_sectionLength;
 	private ArrayList<Section> m_sections;
 
 	public Hike(int id, Section section) {
-		this.m_idHike = id;
 		this.m_dateHike = new Date();
 		this.m_nameHike = this.m_dateHike.toString();
 		this.m_kmHike = 0;
 		this.m_sectionLength = 50;
 		this.m_sections = new ArrayList<Section>();
-		this.m_sections.add(section);
-	}
-
-	/**
-	 * @return the m_idHike
-	 */
-	public int getidHike() {
-		return m_idHike;
+		this.m_currentSection = section;
 	}
 
 	/**
@@ -67,7 +59,10 @@ public class Hike {
 
 	}
 
-	public void addPoint() {
+	public void addPoint(Point point) {
+		m_currentSection.setLastPoint(point);
+		m_sections.add(m_currentSection);
+		m_currentSection = new Section (point);
 	}
 
 }
