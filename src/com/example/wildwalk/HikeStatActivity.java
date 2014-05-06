@@ -7,8 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -22,20 +21,19 @@ public class HikeStatActivity extends Activity{
 	        Hike hike = (Hike)i.getSerializableExtra("Hike");
 	        
 	        TextView nameHike = (TextView) findViewById(R.id.nameHike);
+	        ImageView imageHike = (ImageView) findViewById(R.id.imageHike);
+	        TextView dateHike = (TextView) findViewById(R.id.dateHike);
+	        TextView kmHike = (TextView) findViewById(R.id.kmHike);
+	        
+	        nameHike.setText(hike.getNameHike());
+	        dateHike.setText(String.valueOf(hike.getDateHike()));
+	        kmHike.setText(String.valueOf(hike.getKmHike()));
+	        imageHike.setId(hike.getImageHike());
+	        
+	        
 	        
 	        ActionBar actionBar = getActionBar();
 	        actionBar.setDisplayHomeAsUpEnabled(true);
-	        
-
-	        Button retour = (Button) findViewById(R.id.returnButton);
-	        retour.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View view) {
-	                Intent intent = new Intent();
-	                setResult(RESULT_OK, intent);
-	                finish();
-	            }
-
-	        });
 	    }
 	 
 	 public boolean onOptionsItemSelected(MenuItem item) {

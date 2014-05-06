@@ -41,36 +41,46 @@
 
 
             <TextView
-                android:id="@+id/dateHike"
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="DATE : DD/MM/YYYY"
+                android:text="DATE : "
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/dateHike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginLeft="15dp"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/km"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:text="DISTANCE : "
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/kmHike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:text="DISTANCE : XX Km"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_marginLeft="15dp"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/returnButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Retour" />
     </LinearLayout>
 
 </LinearLayout>
