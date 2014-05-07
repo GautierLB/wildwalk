@@ -2,6 +2,7 @@ package com.example.wildwalk;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -9,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 public class CompassActivity extends Activity {
 
@@ -35,6 +37,9 @@ public class CompassActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		setContentView(R.layout.activity_compass);
 		compassView = (CompassView) findViewById(R.id.compassView);
 		// Récupération du gestionnaire de capteurs
@@ -45,6 +50,15 @@ public class CompassActivity extends Activity {
 		// s’il y a plusieurs capteurs de ce type on garde uniquement le premier
 		if (sensors.size() > 0) {
 			sensor = sensors.get(0);
+		}
+	}
+	//Back button
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+			default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
