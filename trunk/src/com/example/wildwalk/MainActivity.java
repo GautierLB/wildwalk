@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity{
 			CharSequence text = "Boussole";
 			int duration = Toast.LENGTH_SHORT;
 			
-			Intent Compass = new Intent(this, CompassView.class);
+			Intent Compass = new Intent(MainActivity.this, CompassActivity.class);
 			this.startActivity(Compass);
 
 			
