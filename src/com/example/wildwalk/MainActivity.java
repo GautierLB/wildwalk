@@ -1,15 +1,19 @@
 package com.example.wildwalk;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity{
 	
 	ViewPager Tab;
@@ -75,9 +79,15 @@ public class MainActivity extends FragmentActivity{
 		case R.id.menu_settings:
 			
 			Context context = getApplicationContext();
-			CharSequence text = "SETTINGS";
+			CharSequence text = "Boussole";
 			int duration = Toast.LENGTH_SHORT;
+			
+			Intent Compass = new Intent(this, CompassView.class);
+			this.startActivity(Compass);
 
+			
+			
+			
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
 			
