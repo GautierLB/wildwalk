@@ -79,7 +79,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				long minutes=(((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60)%60;
 				long heures= ((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/3600;
 
-				chronometre = heures+" H, "+minutes+" M, "+secondes+" S ";
+				chronometre = heures+"h, "+minutes+"m, "+secondes+"s ";
 				hours.setText(chronometre);
 				
 			}
@@ -91,7 +91,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 			@Override
 			public boolean onLongClick(View v) {
 					// TODO Auto-generated method stub
-					Toast toastStop = Toast.makeText(context, "La randonnée à durée : " + chrono.getText(), Toast.LENGTH_SHORT);
+					Toast toastStop = Toast.makeText(context, "La randonnée a duré : " + chrono.getText(), Toast.LENGTH_SHORT);
 					toastStop.show();
 					btnStart.setText("START");
 					chrono.setBase(SystemClock.elapsedRealtime()); // on reset à 00:00
@@ -129,7 +129,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					
 					long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
 					
-					Toast toastPause = Toast.makeText(context, "Maintenez appuyer pour Stopper " + chrono.getText() +"| "+ minutes, Toast.LENGTH_SHORT);
+					Toast toastPause = Toast.makeText(context, "Maintenez appuyer pour Stopper ", Toast.LENGTH_SHORT);
 					toastPause.show();
 					timeWhenStopped = chrono.getBase() - SystemClock.elapsedRealtime();
 					chrono.stop();
