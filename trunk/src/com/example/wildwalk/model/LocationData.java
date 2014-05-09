@@ -7,6 +7,7 @@ import java.util.Locale;
 import com.example.wildwalk.LocationDataInterface;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.internal.m;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -104,7 +105,11 @@ public class LocationData implements
 	}
 
 	public void stopRando() {
-		m_hike.stop();
+		Location currentLocation = m_locationClient.getLastLocation();
+		Point end = new Point(currentLocation.getLatitude(),
+				currentLocation.getAltitude(),
+				currentLocation.getLongitude(), this.m_context);
+		m_hike.stop(end);
 		// If the client is connected
 		if (m_locationClient.isConnected()) {
 			/*
