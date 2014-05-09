@@ -4,7 +4,12 @@ import com.example.wildwalk.model.LocationData;
 import com.google.android.gms.common.ConnectionResult;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -78,7 +83,6 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				long secondes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)%60;		
 				long minutes=(((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60)%60;
 				long heures= ((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/3600;
-
 				chronometre = heures+"h, "+minutes+"m, "+secondes+"s ";
 				hours.setText(chronometre);
 				
@@ -152,6 +156,8 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		return start;
 
 	}
+	
+
 
 	@Override
 	public void disconnected() {
