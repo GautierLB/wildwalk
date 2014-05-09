@@ -121,7 +121,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					btnStart.setText("PAUSE");
 					chronoState = 1;
 					this.getLocation();
-					loc.startRando(hikeType);					
+					loc.startHike(hikeType,context);					
 					break;
 					
 				case 1: 
