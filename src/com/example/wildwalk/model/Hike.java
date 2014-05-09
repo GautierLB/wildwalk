@@ -116,8 +116,9 @@ public class Hike {
 		return m_sections;
 	}
 
-	public void stop() {
-
+	public void stop(Point end) {
+		this.m_currentSection.setLastPoint(end);
+		this.saveHike();
 	}
 
 	public void addPoint(Point point) {
