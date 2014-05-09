@@ -60,9 +60,10 @@ public class MainActivity extends FragmentActivity{
 			}};
 			
 			//Add New Tab
-			actionBar.addTab(actionBar.newTab().setText("START").setTabListener(tabListener));
-			actionBar.addTab(actionBar.newTab().setText("STATS").setTabListener(tabListener));
-			actionBar.addTab(actionBar.newTab().setText("STATS GLOBALS").setTabListener(tabListener));
+			
+			actionBar.addTab(actionBar.newTab().setIcon(android.R.drawable.ic_menu_myplaces).setText("Nouvelle rando.").setTabListener(tabListener));
+			actionBar.addTab(actionBar.newTab().setIcon(android.R.drawable.ic_menu_agenda).setText("Mes rando.").setTabListener(tabListener));
+			actionBar.addTab(actionBar.newTab().setIcon(android.R.drawable.ic_menu_sort_by_size).setText("Stats globales").setTabListener(tabListener));
 
     }
 
