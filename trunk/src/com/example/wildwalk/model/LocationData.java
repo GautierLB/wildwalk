@@ -74,25 +74,25 @@ public class LocationData implements
 		}
 	}
 
-	public void startRando(String hikeType) {
+	public void startHike(String hikeType, Context context) {
 		if (m_locationClient.isConnected()) {
 			Location currentLocation = m_locationClient.getLastLocation();
 			Point start = new Point(currentLocation.getLatitude(),
 					currentLocation.getAltitude(),
-					currentLocation.getLongitude());
-			Section first = new Section(start);
+					currentLocation.getLongitude(), this.m_context);
+			Section first = new Section(start, this.m_context);
 			m_updatesRequested = true;
 			this.requestUpdates();
 			if (hikeType.equals("Foot")) {
-				FootHike m_hike = new FootHike(0, first);
+				FootHike m_hike = new FootHike(first, context);
 				LocationData.UPDATE_INTERVAL_IN_SECONDS = 180;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Bike")) {
-				BikeHike m_hike = new BikeHike(0, first);
+				BikeHike m_hike = new BikeHike(first, context);
 				LocationData.UPDATE_INTERVAL_IN_SECONDS = 60;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Car")) {
-				CarHike m_hike = new CarHike(0, first);
+				CarHike m_hike = new CarHike(first,context);
 				LocationData.UPDATE_INTERVAL_IN_SECONDS = 30;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			}
@@ -149,7 +149,7 @@ public class LocationData implements
 	public void onLocationChanged(Location location) {
 		if (m_hike != null) {
 			Point next = new Point(location.getLatitude(),
-					location.getAltitude(), location.getLongitude());
+					location.getAltitude(), location.getLongitude(), this.m_context);
 			m_hike.addPoint(next);
 		}
 
