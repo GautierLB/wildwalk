@@ -24,30 +24,39 @@
         android:text="Chronometer" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnStart"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="78dp"
-        android:text="TextView" />
+        android:text="0h, 0m, 0s "
+        android:textSize="50dp" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.example.wildwalk.MapActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/spinner1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        class="com.google.android.gms.maps.SupportMapFragment" />
 
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/hours"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:entries="@array/hike_arrays"
         android:prompt="@string/hike_prompt" />
-
-    <TextView
-        android:id="@+id/hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/chronometer1"
-        android:layout_centerHorizontal="true"
-        android:text="0h, 0m, 0s "
-        android:textSize="50dp" />
 
 </RelativeLayout>

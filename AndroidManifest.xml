@@ -8,12 +8,40 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <permission 
+    android:name="com.example.wildwalk.permission.MAPS_RECEIVE"
+    android:protectionLevel="signature" />
+    
+    <uses-permission android:name="com.example.wildwalk.permission.MAPS_RECEIVE" />
+    <!-- Permission pour utiliser la connexion internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permission permettant de vérifier l'état de la connexion -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Permission pour stocker des données en cache de la map -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
+    
+    
+	   
+
+    
+    
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <uses-library android:name="com.google.android.maps" />
+        	   <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDn3OHc9lDg9mFEDsEnVYjHEZOIzezt4qI" />
         <activity
             android:name="com.example.wildwalk.MainActivity"
             android:label="@string/app_name" >
@@ -26,6 +54,7 @@
         </activity>
         <activity android:name="com.example.wildwalk.HikeStatActivity"></activity>
         <activity android:name="com.example.wildwalk.CompassActivity"></activity>
+        <activity android:name="com.example.wildwalk.MapActivity"></activity>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     </application>
 
