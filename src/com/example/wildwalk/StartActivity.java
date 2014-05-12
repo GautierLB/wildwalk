@@ -47,7 +47,6 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context= this.getActivity();
-		
 		View start = inflater.inflate(R.layout.activity_start, container, false);
 		location =((TextView) start.findViewById(R.id.textView));
 		btnStart = (Button) start.findViewById(R.id.btnStart);

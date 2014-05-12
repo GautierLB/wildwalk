@@ -1,27 +1,16 @@
 package com.example.wildwalk.model;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import com.example.wildwalk.LocationDataInterface;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.internal.m;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 public class LocationData implements
 		GooglePlayServicesClient.ConnectionCallbacks,
@@ -104,26 +93,18 @@ public class LocationData implements
 
 	}
 
-	public void stopRando() {
+	public void stopHike() {
 		Location currentLocation = m_locationClient.getLastLocation();
 		Point end = new Point(currentLocation.getLatitude(),
 				currentLocation.getAltitude(),
 				currentLocation.getLongitude(), this.m_context);
 		m_hike.stop(end);
-		// If the client is connected
 		if (m_locationClient.isConnected()) {
-			/*
-			 * Remove location updates for a listener. The current Activity is
-			 * the listener, so the argument is "this".
-			 */
 			m_locationClient.removeLocationUpdates(this);
 		}
-		/*
-		 * After disconnect() is called, the client is considered "dead".
-		 */
 		m_locationClient.disconnect();
 	}
-
+	
 	public void connect() {
 		m_locationClient.connect();
 	}

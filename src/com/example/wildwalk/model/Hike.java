@@ -1,5 +1,6 @@
 package com.example.wildwalk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-public class Hike {
+public class Hike implements Serializable{
 
 	public static final String TABLE_NAME = "HIKE";
 	public static final String COL_ID = "id_hike";
@@ -84,35 +85,35 @@ public class Hike {
 	/**
 	 * @return the m_nameHike
 	 */
-	public String getnameHike() {
+	public String getNameHike() {
 		return m_nameHike;
 	}
 
 	/**
 	 * @return the m_dateHike
 	 */
-	public Date getdateHike() {
+	public Date getDateHike() {
 		return m_dateHike;
 	}
 
 	/**
 	 * @return the m_kmHike
 	 */
-	public double getkmHike() {
+	public double getKmHike() {
 		return m_kmHike;
 	}
 
 	/**
 	 * @return the m_sectionLength
 	 */
-	public int getsectionLength() {
+	public int getSectionLength() {
 		return m_sectionLength;
 	}
 
 	/**
 	 * @return the m_sections
 	 */
-	public ArrayList<Section> getsections() {
+	public ArrayList<Section> getSections() {
 		return m_sections;
 	}
 
@@ -127,9 +128,6 @@ public class Hike {
 		m_currentSection = new Section(point, this.m_context);
 	}
 
-	public static Hike getHikeFromDB() {
-		return null;
-	}
 
 	public void saveHike() {
 		if (this.m_exctractedFromDB) {
@@ -165,24 +163,24 @@ public class Hike {
 		}
 	}
 
-	public static Hike cursorToHike(Cursor c) {
-		return null;
-		/*
-		 * if (c.getCount() == 0) return null;
-		 * 
-		 * c.moveToFirst(); Hike hike = new Hike();
-		 * 
-		 * hike.setIdHike(c.getInt(NUM_COL_ID));
-		 * hike.setNameHike(c.getString(NUM_COL_NAME));
-		 * hike.setDateHike(c.getInt(NUM_COL_DATE));
-		 * hike.setKmHike(c.getInt(NUM_COL_KM));
-		 * 
-		 * c.close();
-		 * 
-		 * return hike;
-		 */
+	public double getDifferenceInHieght()
+	{
+		double result = 0;
+		for (Section section : this.m_sections) {
+			result += section.getDifferenceInHieght();
+		}
+		return result;
 	}
-
+	
+	public double getAverageSpeed()
+	{
+		double result = 0;
+		for (Section section : this.m_sections) {
+			result += section.getAverageSpeed();
+		}
+		result /= this.m_sections.size();
+		return result;
+	}
 	public int getIdHike() {
 		return m_idHike;
 	}

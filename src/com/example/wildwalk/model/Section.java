@@ -5,6 +5,7 @@ import com.example.wildwalk.dal.DBController;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
 
 public class Section {
 
@@ -31,7 +32,8 @@ public class Section {
 		this.m_exctractedFromDB = false;
 	}
 
-	public Section(int id, int id_first_point, int id_last_point, Context context) {
+	public Section(int id, int id_first_point, int id_last_point,
+			Context context) {
 		this.m_idSection = id;
 		this.m_firstPoint = Point.getPointFromDB(id_first_point, context);
 		this.m_lastPoint = Point.getPointFromDB(id_last_point, context);
@@ -46,7 +48,7 @@ public class Section {
 				+ Section.TABLE_NAME;
 		int retour = 1;
 		try {
-			retour = (db.execRawQuery(query).getInt(Section.NUM_COL_ID))+1;
+			retour = (db.execRawQuery(query).getInt(Section.NUM_COL_ID)) + 1;
 		} catch (IndexOutOfBoundsException e) {
 		}
 		db.close();
@@ -109,7 +111,33 @@ public class Section {
 
 	private void updateSection() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public double getDifferenceInHieght() {
+		double difference = (this.m_lastPoint.getaltitude() - this.m_firstPoint
+				.getaltitude());
+		if (difference > 0) {
+			return difference;
+		} else {
+			return 0;
+		}
+	}
+
+	public double getAverageSpeed() {
+		Location loc1 = new Location("");
+		loc1.setAltitude(this.m_firstPoint.getaltitude());
+		loc1.setLatitude(this.m_firstPoint.getlatitude());
+		loc1.setLongitude(this.m_firstPoint.getlongitude());
+		Location loc2 = new Location("");
+		loc2.setAltitude(this.m_firstPoint.getaltitude());
+		loc2.setLatitude(this.m_firstPoint.getlatitude());
+		loc2.setLongitude(this.m_firstPoint.getlongitude());
+		float length = loc1.distanceTo(loc2);
+		long secondes = this.m_lastPoint.getdatePoint().getTime()
+				- this.m_firstPoint.getdatePoint().getTime();
+		double speedMs = length / secondes;
+		return speedMs * 3.6;
 	}
 
 }
