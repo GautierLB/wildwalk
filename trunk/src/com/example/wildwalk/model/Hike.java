@@ -1,6 +1,8 @@
 package com.example.wildwalk.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,6 +11,7 @@ import com.example.wildwalk.dal.DBController;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.text.format.DateFormat;
 
 public class Hike implements Serializable{
 
@@ -22,6 +25,8 @@ public class Hike implements Serializable{
 	private static final int NUM_COL_NAME = 1;
 	private static final int NUM_COL_DATE = 2;
 	private static final int NUM_COL_KM = 3;
+	
+	private static final SimpleDateFormat DF = new SimpleDateFormat();
 
 	private int m_idHike;
 	private String m_nameHike;
@@ -45,10 +50,20 @@ public class Hike implements Serializable{
 		this.m_exctractedFromDB = false;
 	}
 
+	public Hike(int id, String name, Date date, int km, Context context) {
+		this.m_idHike = id;
+		this.m_nameHike = name;
+		this.m_kmHike = km;
+		this.m_dateHike = date;
+		this.m_context = context;
+		this.m_exctractedFromDB = true;
+	}
+	
 	public Hike(int id, String name, String date, int km, Context context) {
 		this.m_idHike = id;
 		this.m_nameHike = name;
 		this.m_kmHike = km;
+		//this.m_dateHike = date;
 		this.m_context = context;
 		this.m_exctractedFromDB = true;
 	}
