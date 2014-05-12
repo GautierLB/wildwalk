@@ -1,13 +1,14 @@
 package com.example.wildwalk;
 
 
+import com.example.wildwalk.model.Hike;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -17,18 +18,16 @@ public class HikeStatActivity extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_hike_stat);
-	        Intent i = getIntent();
-	        Hike hike = (Hike)i.getSerializableExtra("Hike");
+	        Bundle i = getIntent().getExtras();
+	        Hike hike = i.getParcelable("Hike");
 	        
 	        TextView nameHike = (TextView) findViewById(R.id.nameHike);
-	        ImageView imageHike = (ImageView) findViewById(R.id.imageHike);
 	        TextView dateHike = (TextView) findViewById(R.id.dateHike);
 	        TextView kmHike = (TextView) findViewById(R.id.kmHike);
 	        
 	        nameHike.setText(hike.getNameHike());
 	        dateHike.setText(String.valueOf(hike.getDateHike()));
 	        kmHike.setText(String.valueOf(hike.getKmHike()));
-	        imageHike.setId(hike.getImageHike());
 	        
 	        
 	        

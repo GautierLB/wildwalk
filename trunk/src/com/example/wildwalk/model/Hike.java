@@ -1,6 +1,7 @@
 package com.example.wildwalk.model;
 
-import java.io.Serializable;
+import android.os.Parcel; 
+import android.os.Parcelable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.text.format.DateFormat;
 
-public class Hike implements Serializable{
+public class Hike implements Parcelable{
 
 	public static final String TABLE_NAME = "HIKE";
 	public static final String COL_ID = "id_hike";
@@ -67,6 +68,9 @@ public class Hike implements Serializable{
 		this.m_context = context;
 		this.m_exctractedFromDB = true;
 	}
+	
+	public Hike(Parcel in) 
+	{ readFromParcel(in); } 
 
 	private int getLastId() {
 		DBController db = DBController.Get(this.m_context);
@@ -142,7 +146,30 @@ public class Hike implements Serializable{
 		m_sections.add(m_currentSection);
 		m_currentSection = new Section(point, this.m_context);
 	}
+	
+	public void writeToParcel(Parcel dest, int flags){
+		dest.writeInt(m_idHike);
+		dest.writeString(m_nameHike);
+		dest.writeSerializable(m_dateHike);
+		dest.writeDouble(m_kmHike);	
+	}
 
+	public void readFromParcel(Parcel in){
+		m_idHike = in.readInt();
+		m_nameHike = in.readString();
+		m_dateHike = (Date) in.readSerializable();
+		m_kmHike = in.readDouble();
+	}
+	
+	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+		public Hike createFromParcel(Parcel in) {
+			return new Hike(in);
+		}
+
+		public Hike[] newArray(int size) {
+			return new Hike[size];
+		}
+	};
 
 	public void saveHike() {
 		if (this.m_exctractedFromDB) {
@@ -202,6 +229,12 @@ public class Hike implements Serializable{
 
 	public void setIdHike(int m_idHike) {
 		this.m_idHike = m_idHike;
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

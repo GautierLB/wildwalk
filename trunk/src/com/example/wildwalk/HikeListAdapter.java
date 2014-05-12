@@ -2,6 +2,8 @@ package com.example.wildwalk;
 
 import java.util.List;
 
+import com.example.wildwalk.model.Hike;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -37,11 +39,10 @@ public class HikeListAdapter extends BaseAdapter {
         	LayoutInflater inflater = (LayoutInflater)m_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         	convertView = inflater.inflate(R.layout.activity_listview_cell_left, parent, false);
             
-        	m_holder.imageHike = (ImageView)convertView.findViewById(R.id.imageHike);
+        	m_holder.imgHike = (ImageView)convertView.findViewById(R.id.imageHike);
             m_holder.nameHike = (TextView)convertView.findViewById(R.id.nameHike);
             m_holder.dateHike = (TextView)convertView.findViewById(R.id.dateHike);
             m_holder.kmHike = (TextView)convertView.findViewById(R.id.kmHike);
-            m_holder.position = (TextView)convertView.findViewById(R.id.position);
               
             convertView.setTag(m_holder);
         }
@@ -50,12 +51,10 @@ public class HikeListAdapter extends BaseAdapter {
             m_holder = (ViewHolder) convertView.getTag();
         }
         
-        
-        m_holder.imageHike.setId(m_hikeList.get(position).getImageHike());
+        m_holder.imgHike.setId(R.id.imageHike);
         m_holder.nameHike.setText(m_hikeList.get(position).getNameHike());
         m_holder.dateHike.setText(String.valueOf(m_hikeList.get(position).getDateHike()));
         m_holder.kmHike.setText(String.valueOf(m_hikeList.get(position).getKmHike()));
-        m_holder.position.setText(String.valueOf(position));
         
 
         return convertView;
@@ -77,7 +76,7 @@ public class HikeListAdapter extends BaseAdapter {
     }
    
 	public class ViewHolder {
-		ImageView imageHike;
+		ImageView imgHike;
 	    TextView nameHike;
 	    TextView dateHike;
 	    TextView kmHike;
