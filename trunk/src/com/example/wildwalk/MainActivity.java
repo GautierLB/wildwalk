@@ -30,6 +30,7 @@ public class MainActivity extends FragmentActivity{
         Tab = (ViewPager)findViewById(R.id.pager);
         
         Tab.setOnPageChangeListener( new ViewPager.SimpleOnPageChangeListener() {
+        	
         	@Override
             public void onPageSelected(int position) { 
         		actionBar = getActionBar();
@@ -60,10 +61,11 @@ public class MainActivity extends FragmentActivity{
 			}};
 			
 			//Add New Tab
-			
-			actionBar.addTab(actionBar.newTab().setIcon(android.R.drawable.ic_menu_myplaces).setText("Nouvelle rando.").setTabListener(tabListener));
+
 			actionBar.addTab(actionBar.newTab().setIcon(android.R.drawable.ic_menu_agenda).setText("Mes rando.").setTabListener(tabListener));
+			actionBar.addTab(actionBar.newTab().setIcon(android.R.drawable.ic_menu_myplaces).setText("Nouvelle rando.").setTabListener(tabListener),true);
 			actionBar.addTab(actionBar.newTab().setIcon(android.R.drawable.ic_menu_sort_by_size).setText("Stats globales").setTabListener(tabListener));
+			
 
     }
 

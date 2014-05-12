@@ -14,11 +14,11 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter{
 	public Fragment getItem(int i) {
 		switch (i) {
         case 0:
-            //Fragement for Start Tab
-            return new StartActivity();
-        case 1:
-           //Fragment for Stats Tab
+        	//Fragment for Stats Tab
             return new HikesActivity();
+        case 1:
+        	//Fragement for Start Tab
+            return new StartActivity();
         case 2:
             //Fragment for StatsGlobal Tab
             return new StatsGlobalActivity();
