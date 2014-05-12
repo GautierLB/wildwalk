@@ -48,7 +48,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context= this.getActivity();
 		View start = inflater.inflate(R.layout.activity_start, container, false);
-		location =((TextView) start.findViewById(R.id.textView));
+		//location =((TextView) start.findViewById(R.id.textView));
 		btnStart = (Button) start.findViewById(R.id.btnStart);
 		spinner = (Spinner) start.findViewById(R.id.spinner1);
 		//hours = (long) start.findViewById(R.id.);
@@ -144,7 +144,8 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				
 			}
 			private void getLocation() {
-				location.setText(loc.getLocation());				
+				//location.setText(loc.getLocation());
+				
 			}
 
 			

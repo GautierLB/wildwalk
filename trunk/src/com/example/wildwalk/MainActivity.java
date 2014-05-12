@@ -19,7 +19,7 @@ public class MainActivity extends FragmentActivity{
 	ViewPager Tab;
     TabPagerAdapter TabAdapter;
 	ActionBar actionBar;
-	
+	Context context;
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,9 +79,9 @@ public class MainActivity extends FragmentActivity{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_settings:
+		case R.id.boussole:
 			
-			Context context = getApplicationContext();
+			context = getApplicationContext();
 			CharSequence text = "Boussole";
 			int duration = Toast.LENGTH_SHORT;
 			
@@ -94,8 +94,24 @@ public class MainActivity extends FragmentActivity{
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
 			
-			// Comportement du bouton "Paramètres"
+			// Comportement du bouton "boussole"
 			return true;
+			
+		case R.id.map:
+			
+			context = getApplicationContext();
+			CharSequence text1 = "Map";
+			int duration1 = Toast.LENGTH_SHORT;		
+			Intent Map = new Intent(MainActivity.this, MapActivity.class);
+			this.startActivity(Map);
+			Toast toast1 = Toast.makeText(context, text1, duration1);
+			toast1.show();
+			
+			// Comportement du bouton "map"
+			return true;			
+			
+			
+			
 		default:
 			return super.onOptionsItemSelected(item);
 		}
