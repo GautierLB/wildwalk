@@ -2,6 +2,10 @@ package com.example.wildwalk;
 
 import com.example.wildwalk.model.LocationData;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -43,6 +47,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private int resetChrono=0;
 	private CharSequence tempTime = "00:00";
 	long timeWhenStopped=0;
+	GoogleMap map;
 	private int sec=0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +64,12 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		//chrono.setBase(SystemClock.elapsedRealtime());
 		loc.connect();
 		chrono.setVisibility(View.INVISIBLE);
+		map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		map.setMyLocationEnabled(true);
+		map.getUiSettings().setCompassEnabled(true);
+		LatLng Lyon = new LatLng(45.7500000,4.8500000);
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(Lyon, 13));
 		
 		
 		
