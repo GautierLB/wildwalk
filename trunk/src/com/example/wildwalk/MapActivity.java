@@ -17,6 +17,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -32,13 +33,15 @@ public class MapActivity extends FragmentActivity {
 		ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_map);
+		/*this.map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();​​
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-18.142, 178.431), 2));*/
 		
-		
-		
-		GoogleMap gMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-		gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-		gMap.setMyLocationEnabled(true);
-		gMap.getUiSettings().setCompassEnabled(true);
+		map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		map.setMyLocationEnabled(true);
+		map.getUiSettings().setCompassEnabled(true);
+		LatLng Lyon = new LatLng(45.7500000,4.8500000);
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(Lyon, 13));
 		Log.e("Maps", "------EOC-------");
 	}
 	
