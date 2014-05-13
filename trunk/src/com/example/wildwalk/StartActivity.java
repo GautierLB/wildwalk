@@ -45,6 +45,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	long timeWhenStopped=0;
 	private int sec=0;
 	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context= this.getActivity();
 		View start = inflater.inflate(R.layout.activity_start, container, false);
@@ -164,7 +165,6 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		Toast.makeText(this.context,"Location client disconnected",Toast.LENGTH_SHORT).show();	
 	}
 
-	@Override
 	public void connectionFailed(ConnectionResult co) {
 		Toast.makeText(this.context, "Connection Failure : " + 
 			      co.getErrorCode(),
