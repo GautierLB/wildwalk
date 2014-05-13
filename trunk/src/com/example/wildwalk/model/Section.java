@@ -101,7 +101,7 @@ public class Section {
 					this.m_firstPoint.getIdPoint());
 			sectionContent.put(Section.COL_LAST_POINT,
 					this.m_lastPoint.getIdPoint());
-			db.execInsert("HIKE", sectionContent);
+			db.execInsert("SECTION", sectionContent);
 			this.m_firstPoint.savePoint();
 			this.m_lastPoint.savePoint();
 			db.close();
