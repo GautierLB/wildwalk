@@ -74,15 +74,15 @@ public class LocationData implements
 			m_updatesRequested = true;
 			this.requestUpdates();
 			if (hikeType.equals("Foot")) {
-				FootHike m_hike = new FootHike(first, context);
+				m_hike = new FootHike(first, context);
 				LocationData.UPDATE_INTERVAL_IN_SECONDS = 180;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Bike")) {
-				BikeHike m_hike = new BikeHike(first, context);
+				m_hike = new BikeHike(first, context);
 				LocationData.UPDATE_INTERVAL_IN_SECONDS = 60;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Car")) {
-				CarHike m_hike = new CarHike(first,context);
+				m_hike = new CarHike(first,context);
 				LocationData.UPDATE_INTERVAL_IN_SECONDS = 30;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			}

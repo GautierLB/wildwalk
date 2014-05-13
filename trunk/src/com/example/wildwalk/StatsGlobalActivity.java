@@ -1,15 +1,11 @@
 package com.example.wildwalk;
-import java.util.List;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
+import com.example.wildwalk.model.Hike;
 
 public class StatsGlobalActivity extends Fragment{
 	
@@ -38,7 +34,8 @@ public class StatsGlobalActivity extends Fragment{
 
 		gStatListView.setAdapter(adapter);
         
-        
+        //Hike test = Hike.getHikeFromDB(1, this.getActivity());
+        int i = 1;
         return statsGlobal;
     }
 }

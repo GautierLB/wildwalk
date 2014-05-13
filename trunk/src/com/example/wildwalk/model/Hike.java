@@ -1,6 +1,6 @@
 package com.example.wildwalk.model;
 
-import android.os.Parcel; 
+import android.os.Parcel;
 import android.os.Parcelable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.text.format.DateFormat;
 
-public class Hike implements Parcelable{
+public class Hike implements Parcelable {
 
 	public static final String TABLE_NAME = "HIKE";
 	public static final String COL_ID = "id_hike";
@@ -26,8 +26,9 @@ public class Hike implements Parcelable{
 	private static final int NUM_COL_NAME = 1;
 	private static final int NUM_COL_DATE = 2;
 	private static final int NUM_COL_KM = 3;
-	
-	private static final SimpleDateFormat DF = new SimpleDateFormat();
+	// Mon May 12 14:24:46 CEST 2014
+	private static SimpleDateFormat DF = new SimpleDateFormat(
+			"EEE MMM d HH:mm:ss z yyyy");
 
 	private int m_idHike;
 	private String m_nameHike;
@@ -59,26 +60,19 @@ public class Hike implements Parcelable{
 		this.m_context = context;
 		this.m_exctractedFromDB = true;
 	}
-	
-	public Hike(int id, String name, String date, int km, Context context) {
-		this.m_idHike = id;
-		this.m_nameHike = name;
-		this.m_kmHike = km;
-		//this.m_dateHike = date;
-		this.m_context = context;
-		this.m_exctractedFromDB = true;
+
+	public Hike(Parcel in) {
+		readFromParcel(in);
 	}
-	
-	public Hike(Parcel in) 
-	{ readFromParcel(in); } 
 
 	private int getLastId() {
 		DBController db = DBController.Get(this.m_context);
 		db.open();
-		String query = "SELECT MAX(" + Hike.COL_ID + ") FROM " + Hike.TABLE_NAME;
+		String query = "SELECT MAX(" + Hike.COL_ID + ") FROM "
+				+ Hike.TABLE_NAME;
 		int retour = 1;
 		try {
-			retour = (db.execRawQuery(query).getInt(Hike.NUM_COL_ID))+1;
+			retour = (db.execRawQuery(query).getInt(Hike.NUM_COL_ID)) + 1;
 		} catch (IndexOutOfBoundsException e) {
 		}
 		db.close();
@@ -93,10 +87,18 @@ public class Hike implements Parcelable{
 				Hike.COL_KM };
 		Cursor result = db.execSelect(Hike.TABLE_NAME, columns, selection,
 				null, "", "", "");
-		Hike retour = new Hike(result.getInt(Hike.NUM_COL_ID),
-				result.getString(Hike.NUM_COL_NAME),
-				result.getString(Hike.NUM_COL_DATE),
-				result.getInt(Hike.NUM_COL_KM), context);
+
+		Hike retour;
+		try {
+			retour = new Hike(result.getInt(Hike.NUM_COL_ID),
+					result.getString(Hike.NUM_COL_NAME), DF.parse(result
+							.getString(Hike.NUM_COL_DATE)),
+					result.getInt(Hike.NUM_COL_KM), context);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			retour = null;
+		}
 		db.close();
 		return retour;
 	}
@@ -146,21 +148,21 @@ public class Hike implements Parcelable{
 		m_sections.add(m_currentSection);
 		m_currentSection = new Section(point, this.m_context);
 	}
-	
-	public void writeToParcel(Parcel dest, int flags){
+
+	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(m_idHike);
 		dest.writeString(m_nameHike);
 		dest.writeSerializable(m_dateHike);
-		dest.writeDouble(m_kmHike);	
+		dest.writeDouble(m_kmHike);
 	}
 
-	public void readFromParcel(Parcel in){
+	public void readFromParcel(Parcel in) {
 		m_idHike = in.readInt();
 		m_nameHike = in.readString();
 		m_dateHike = (Date) in.readSerializable();
 		m_kmHike = in.readDouble();
 	}
-	
+
 	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
 		public Hike createFromParcel(Parcel in) {
 			return new Hike(in);
@@ -180,6 +182,7 @@ public class Hike implements Parcelable{
 			ContentValues hikeContent = new ContentValues();
 			hikeContent.putNull(Hike.COL_ID);
 			hikeContent.put(Hike.COL_NAME, this.m_nameHike);
+			String bete = this.m_dateHike.toString();
 			hikeContent.put(Hike.COL_DATE, this.m_dateHike.toString());
 			hikeContent.put(Hike.COL_KM, this.m_kmHike);
 			db.execInsert("HIKE", hikeContent);
@@ -205,17 +208,15 @@ public class Hike implements Parcelable{
 		}
 	}
 
-	public double getDifferenceInHieght()
-	{
+	public double getDifferenceInHieght() {
 		double result = 0;
 		for (Section section : this.m_sections) {
 			result += section.getDifferenceInHieght();
 		}
 		return result;
 	}
-	
-	public double getAverageSpeed()
-	{
+
+	public double getAverageSpeed() {
 		double result = 0;
 		for (Section section : this.m_sections) {
 			result += section.getAverageSpeed();
@@ -223,6 +224,7 @@ public class Hike implements Parcelable{
 		result /= this.m_sections.size();
 		return result;
 	}
+
 	public int getIdHike() {
 		return m_idHike;
 	}
