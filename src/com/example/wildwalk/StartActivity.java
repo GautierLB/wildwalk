@@ -97,7 +97,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					// TODO Auto-generated method stub
 					Toast toastStop = Toast.makeText(context, "La randonnée a duré : " + chrono.getText(), Toast.LENGTH_SHORT);
 					toastStop.show();
-					
+					loc.stopHike();
 					btnStart.setText("START");
 					chrono.setBase(SystemClock.elapsedRealtime()); // on reset à 00:00
 					chrono.stop();
