@@ -44,7 +44,6 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private CharSequence tempTime = "00:00";
 	long timeWhenStopped=0;
 	private int sec=0;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context= this.getActivity();
@@ -60,8 +59,6 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		//chrono.setBase(SystemClock.elapsedRealtime());
 		loc.connect();
 		chrono.setVisibility(View.INVISIBLE);
-		
-
 		
 		
 		
@@ -158,8 +155,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 
 	}
 	
-
-
+	 
 	@Override
 	public void disconnected() {
 		Toast.makeText(this.context,"Location client disconnected",Toast.LENGTH_SHORT).show();	
