@@ -124,7 +124,7 @@ public class Point {
 			pointContent.put(Point.COL_LATITUDE, this.m_latitude);
 			pointContent.put(Point.COL_LONGITUDE, this.m_longitude);
 			pointContent.put(Point.COL_DATE, this.m_datePoint.toString());
-			db.execInsert("HIKE", pointContent);
+			db.execInsert("POINT", pointContent);
 			db.close();
 		}
 
