@@ -52,7 +52,7 @@ public class HikeListAdapter extends BaseAdapter {
         }
         
         m_holder.imgHike.setId(R.id.imageHike);
-        m_holder.nameHike.setText(m_hikeList.get(position).getNameHike());
+        m_holder.nameHike.setText(String.valueOf(m_hikeList.get(position).getNameHike()));
         m_holder.dateHike.setText(String.valueOf(m_hikeList.get(position).getDateHike()));
         m_holder.kmHike.setText(String.valueOf(m_hikeList.get(position).getKmHike()));
         
