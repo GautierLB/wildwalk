@@ -29,53 +29,48 @@
         android:layout_weight="0.91"
         android:orientation="vertical" >
 
-        <TextureView
-            android:id="@+id/textureView1"
+        <fragment
+            android:id="@+id/map"
+            android:name="com.example.wildwalk.MapActivity"
             android:layout_width="wrap_content"
-            android:layout_height="96dp"
+            android:layout_height="200dp"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-                 />
+            android:layout_marginTop="5dp"
+            android:text="DATE : "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
+        <TextView
+            android:id="@+id/dateHike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:text="DATE : "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="DISTANCE : "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/dateHike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginLeft="15dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/km"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:text="DISTANCE : "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/kmHike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
+        <TextView
+            android:id="@+id/kmHike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <LinearLayout
