@@ -87,18 +87,19 @@ public class Hike implements Parcelable {
 				Hike.COL_KM };
 		Cursor result = db.execSelect(Hike.TABLE_NAME, columns, selection,
 				null, "", "", "");
-
+		result.moveToFirst();
 		Hike retour;
-		try {
+		//try {
 			retour = new Hike(result.getInt(Hike.NUM_COL_ID),
-					result.getString(Hike.NUM_COL_NAME), DF.parse(result
-							.getString(Hike.NUM_COL_DATE)),
+					result.getString(Hike.NUM_COL_NAME), 
+					//DF.parse(result.getString(Hike.NUM_COL_DATE)
+					new Date(),
 					result.getInt(Hike.NUM_COL_KM), context);
-		} catch (ParseException e) {
+		/*} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			retour = null;
-		}
+			retour = new Hike(0,"hh",new Date(),12, context);
+		}*/
 		db.close();
 		return retour;
 	}
