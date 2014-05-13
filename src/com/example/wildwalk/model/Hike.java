@@ -12,7 +12,6 @@ import com.example.wildwalk.dal.DBController;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.text.format.DateFormat;
 
 public class Hike implements Parcelable {
 
@@ -27,8 +26,8 @@ public class Hike implements Parcelable {
 	private static final int NUM_COL_DATE = 2;
 	private static final int NUM_COL_KM = 3;
 	// Mon May 12 14:24:46 CEST 2014
-	private static SimpleDateFormat DF = new SimpleDateFormat(
-			"EEE MMM d HH:mm:ss z yyyy");
+	public static SimpleDateFormat DF = new SimpleDateFormat(
+			"EEE MMM dd HH:mm:ss yyyy");
 
 	private int m_idHike;
 	private String m_nameHike;
@@ -87,21 +86,24 @@ public class Hike implements Parcelable {
 				Hike.COL_KM };
 		Cursor result = db.execSelect(Hike.TABLE_NAME, columns, selection,
 				null, "", "", "");
-		result.moveToFirst();
 		Hike retour;
-		//try {
-			retour = new Hike(result.getInt(Hike.NUM_COL_ID),
-					result.getString(Hike.NUM_COL_NAME), 
-					//DF.parse(result.getString(Hike.NUM_COL_DATE)
-					new Date(),
-					result.getInt(Hike.NUM_COL_KM), context);
-		/*} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			retour = new Hike(0,"hh",new Date(),12, context);
-		}*/
+		if (result.moveToFirst()) {
+
+			try {
+				String bete = result.getString(NUM_COL_DATE);
+				retour = new Hike(result.getInt(Hike.NUM_COL_ID),
+						result.getString(Hike.NUM_COL_NAME), DF.parse(bete),
+						result.getInt(Hike.NUM_COL_KM), context);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				retour = new Hike(0, "hh", new Date(), 12, context);
+			}
+		} else {
+			retour = new Hike(0, "hh", new Date(), 12, context);
+		}
 		db.close();
 		return retour;
+
 	}
 
 	/**
@@ -183,8 +185,8 @@ public class Hike implements Parcelable {
 			ContentValues hikeContent = new ContentValues();
 			hikeContent.putNull(Hike.COL_ID);
 			hikeContent.put(Hike.COL_NAME, this.m_nameHike);
-			String bete = this.m_dateHike.toString();
-			hikeContent.put(Hike.COL_DATE, this.m_dateHike.toString());
+			String bete = DF.format(this.m_dateHike);
+			hikeContent.put(Hike.COL_DATE, DF.format(this.m_dateHike));
 			hikeContent.put(Hike.COL_KM, this.m_kmHike);
 			db.execInsert("HIKE", hikeContent);
 			for (Section section : this.m_sections) {
