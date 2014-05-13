@@ -12,7 +12,7 @@
             android:id="@+id/imageHike"
             android:layout_width="90dp"
             android:layout_height="match_parent"
-            android:src="@drawable/icon_hike" />
+            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/nameHike"
@@ -33,7 +33,7 @@
             android:id="@+id/map"
             android:name="com.example.wildwalk.MapActivity"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             class="com.google.android.gms.maps.SupportMapFragment" />
 
         <TextView

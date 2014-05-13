@@ -26,9 +26,13 @@ public class HikesActivity extends Fragment {
 		
 		hikeList.clear();
 		Date now = new Date();
-		for (int i=1; i<=100;i++){
-		hikeList.add(new Hike(i,"Hike "+i, now, 50, this.getActivity()));
+		hikeList.add(Hike.getHikeFromDB(1,this.getActivity()));
+		if(Hike.getHikeFromDB(1,this.getActivity())==null){
+			int i =1;
 		}
+		/*for (int i=1; i<=100;i++){
+		hikeList.add(new Hike(i,"Hike "+i, now, 50, this.getActivity()));
+		}*/
 	}
 	
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
