@@ -7,6 +7,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
 import android.location.Location;
@@ -63,6 +64,14 @@ public class LocationData implements
 			return "Erreur de connexion au service de localisation";
 		}
 	}
+	public LatLng getLocationLatLng() {
+		if (m_locationClient.isConnected()) {
+			Location currentLocation = m_locationClient.getLastLocation();
+			return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+		} else {
+			return new LatLng(45.7500000,4.8500000);
+		}
+	}
 
 	public void startHike(String hikeType, Context context) {
 		if (m_locationClient.isConnected()) {
@@ -102,7 +111,6 @@ public class LocationData implements
 		if (m_locationClient.isConnected()) {
 			m_locationClient.removeLocationUpdates(this);
 		}
-		m_locationClient.disconnect();
 	}
 	
 	public void connect() {
@@ -138,6 +146,7 @@ public class LocationData implements
 					location.getAltitude(), location.getLongitude(), this.m_context);
 			m_hike.addPoint(next);
 		}
+		m_activity.updateLocation(new LatLng(location.getLatitude(), location.getLongitude()));
 
 	}
 }
