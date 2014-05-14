@@ -59,17 +59,16 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		//hours = (long) start.findViewById(R.id.);
 		hours = ((TextView) start.findViewById(R.id.hours));
 		loc = new LocationData(this, context);
+		loc.connect();
 		chrono = (Chronometer)start.findViewById(R.id.chronometer1);
 		//chrono.setFormat("00:00:00");
 		//chrono.setBase(SystemClock.elapsedRealtime());
-		loc.connect();
 		chrono.setVisibility(View.INVISIBLE);
 		map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		map.setMyLocationEnabled(true);
 		map.getUiSettings().setCompassEnabled(true);
-		LatLng Lyon = new LatLng(45.7500000,4.8500000);
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(Lyon, 13));
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13));
 		
 		
 		
@@ -134,6 +133,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					btnStart.setText("PAUSE");
 					chronoState = 1;
 					this.getLocation();
+					map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13));
 					loc.startHike(hikeType,context);					
 					break;
 					
@@ -176,6 +176,13 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		Toast.makeText(this.context, "Connection Failure : " + 
 			      co.getErrorCode(),
 			      Toast.LENGTH_SHORT).show();
+		
+	}
+
+
+	@Override
+	public void updateLocation(LatLng location) {
+		this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 15));
 		
 	}
 	
