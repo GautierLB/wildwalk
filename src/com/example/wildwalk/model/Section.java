@@ -120,16 +120,13 @@ public class Section {
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
 		String selection = Section.COL_ID_HIKE + " = " + id;
-		String[] columns = { Section.COL_FIRST_POINT, Section.COL_LAST_POINT };
+		String[] columns = {Section.COL_ID};
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Section actual;
+		result.moveToFirst();
 		while (result.moveToNext()) {
-			actual = new Section(Point.getPointFromDB(
-					result.getInt(Section.NUM_COL_FIRST_POINT), context),
-					context);
-			actual.setLastPoint(Point.getPointFromDB(
-					result.getInt(Section.NUM_COL_LAST_POINT), context));
+			actual = Section.getPointFromDB(result.getInt(0), context);
 			retour.add(actual);
 		}
 		db.close();
