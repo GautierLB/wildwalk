@@ -44,7 +44,7 @@ public class Hike implements Parcelable {
 		this.m_nameHike = this.m_dateHike.toString();
 		this.m_kmHike = 0;
 		this.m_sectionLength = 50;
-		this.m_sections = new ArrayList<Section>();
+		this.setSections(new ArrayList<Section>());
 		this.m_currentSection = section;
 		this.m_context = context;
 		this.m_idHike = (this.getLastId());
@@ -105,6 +105,35 @@ public class Hike implements Parcelable {
 		return retour;
 
 	}
+	
+	public static ArrayList<Hike> getAllHikes(Context context)
+	{
+		DBController db = DBController.Get(context);
+		db.open();
+		ArrayList<Hike> retour = new ArrayList<Hike>();
+		String selection = "";
+		String[] columns = { Hike.COL_ID, Hike.COL_NAME, Hike.COL_DATE,
+				Hike.COL_KM };
+		Cursor result = db.execSelect(Hike.TABLE_NAME, columns, selection,
+				null, "", "", "");
+		Hike actual = null;
+		while (result.moveToNext()) {
+			try {
+				String bete = result.getString(NUM_COL_DATE);
+				actual = new Hike(result.getInt(Hike.NUM_COL_ID),
+						result.getString(Hike.NUM_COL_NAME), DF.parse(bete),
+						result.getInt(Hike.NUM_COL_KM), context);
+				ArrayList<Section> sections = Section.getSectionsForHike(result.getInt(Hike.NUM_COL_ID), context);
+				actual.setSections(sections);
+				retour.add(actual);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				actual = new Hike(0, "hh", new Date(), 12, context);
+			}
+		} 
+		db.close();
+		return retour;
+	}
 
 	/**
 	 * @return the m_nameHike
@@ -148,7 +177,7 @@ public class Hike implements Parcelable {
 
 	public void addPoint(Point point) {
 		m_currentSection.setLastPoint(point);
-		m_sections.add(m_currentSection);
+		getSections().add(m_currentSection);
 		m_currentSection = new Section(point, this.m_context);
 	}
 
@@ -189,7 +218,7 @@ public class Hike implements Parcelable {
 			hikeContent.put(Hike.COL_DATE, DF.format(this.m_dateHike));
 			hikeContent.put(Hike.COL_KM, this.m_kmHike);
 			db.execInsert("HIKE", hikeContent);
-			for (Section section : this.m_sections) {
+			for (Section section : this.getSections()) {
 				section.saveSection(this.m_idHike);
 			}
 			db.close();
@@ -213,7 +242,7 @@ public class Hike implements Parcelable {
 
 	public double getDifferenceInHieght() {
 		double result = 0;
-		for (Section section : this.m_sections) {
+		for (Section section : this.getSections()) {
 			result += section.getDifferenceInHieght();
 		}
 		return result;
@@ -221,10 +250,10 @@ public class Hike implements Parcelable {
 
 	public double getAverageSpeed() {
 		double result = 0;
-		for (Section section : this.m_sections) {
+		for (Section section : this.getSections()) {
 			result += section.getAverageSpeed();
 		}
-		result /= this.m_sections.size();
+		result /= this.getSections().size();
 		return result;
 	}
 
@@ -240,6 +269,10 @@ public class Hike implements Parcelable {
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void setSections(ArrayList<Section> m_sections) {
+		this.m_sections = m_sections;
 	}
 
 }
