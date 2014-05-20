@@ -134,6 +134,20 @@ public class Hike implements Parcelable {
 		db.close();
 		return retour;
 	}
+	
+	public static int getNbHike(Context context)
+	{
+		DBController db = DBController.Get(context);
+		db.open();
+		String query = "SELECT COUNT(" + Hike.COL_ID + ") FROM " + Hike.TABLE_NAME;
+		Cursor result = db.execRawQuery(query);
+		int retour = 0;
+		if (result.moveToFirst())
+		{
+			retour = result.getInt(0);
+		}
+		return retour;
+	}
 
 	/**
 	 * @return the m_nameHike
