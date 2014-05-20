@@ -3,6 +3,7 @@ package com.example.wildwalk.model;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import com.example.wildwalk.dal.DBController;
 
@@ -67,6 +68,7 @@ public class Section {
 				Section.COL_FIRST_POINT, Section.COL_LAST_POINT };
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
+		result.moveToFirst();
 		Section retour = new Section(result.getInt(Section.NUM_COL_ID),
 				result.getInt(Section.NUM_COL_FIRST_POINT),
 				result.getInt(Section.NUM_COL_LAST_POINT), context);
@@ -88,8 +90,8 @@ public class Section {
 		return m_lastPoint;
 	}
 
-	public void setLastPoint(Point m_lastPoint) {
-		this.m_lastPoint = m_lastPoint;
+	public void setLastPoint(Point lastPoint) {
+		this.m_lastPoint = lastPoint;
 	}
 
 	public void saveSection(int id_hike) {
@@ -128,7 +130,7 @@ public class Section {
 					context);
 			actual.setLastPoint(Point.getPointFromDB(
 					result.getInt(Section.NUM_COL_LAST_POINT), context));
-			retour.add(actual);		
+			retour.add(actual);
 		}
 		db.close();
 		return retour;
@@ -140,8 +142,7 @@ public class Section {
 	}
 
 	public double getDifferenceInHieght() {
-		double difference = (this.m_lastPoint.getaltitude() - this.m_firstPoint
-				.getaltitude());
+		double difference = (this.m_lastPoint.getaltitude() - this.m_firstPoint.getaltitude());
 		if (difference > 0) {
 			return difference;
 		} else {
@@ -150,6 +151,14 @@ public class Section {
 	}
 
 	public double getAverageSpeed() {
+		float length = this.getDistance();
+		long secondes = this.m_lastPoint.getdatePoint().getTime()
+				- this.m_firstPoint.getdatePoint().getTime();
+		double speedMs = length / secondes;
+		return speedMs * 3.6;
+	}
+
+	public float getDistance() {
 		Location loc1 = new Location("");
 		loc1.setAltitude(this.m_firstPoint.getaltitude());
 		loc1.setLatitude(this.m_firstPoint.getlatitude());
@@ -159,10 +168,55 @@ public class Section {
 		loc2.setLatitude(this.m_firstPoint.getlatitude());
 		loc2.setLongitude(this.m_firstPoint.getlongitude());
 		float length = loc1.distanceTo(loc2);
-		long secondes = this.m_lastPoint.getdatePoint().getTime()
-				- this.m_firstPoint.getdatePoint().getTime();
-		double speedMs = length / secondes;
-		return speedMs * 3.6;
+		return length;
+	}
+
+	public static int getAllDifferenceInHieght(Context context) {
+		ArrayList<Section> sections = Section.getAllSections(context);
+		int retour = 0;
+		for (Section sec : sections) {
+			retour += sec.getDifferenceInHieght();
+		}
+		return retour;
+	}
+
+	public static int getAlldistance(Context context) {
+		ArrayList<Section> sections = Section.getAllSections(context);
+		int retour = 0;
+		for (Section sec : sections) {
+			retour += sec.getDistance();
+		}
+		return retour;
+	}
+
+	public static int getAllAverageSpeed (Context context)
+	{
+		ArrayList<Section> sections = Section.getAllSections(context);
+		int retour = 0;
+		for (Section sec : sections) {
+			retour += sec.getAverageSpeed();
+		}
+		if (sections.size() != 0){
+		retour /= sections.size();
+		}
+		return retour;
+	}
+
+	public static ArrayList<Section> getAllSections(Context context) {
+		DBController db = DBController.Get(context);
+		db.open();
+		ArrayList<Section> retour = new ArrayList<Section>();
+		String selection = "";
+		String[] columns = {Section.COL_ID};
+		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
+				null, "", "", "");
+		Section actual;
+		result.moveToFirst();
+		while (result.moveToNext()) {
+			actual = Section.getPointFromDB(result.getInt(0), context);
+		}
+		db.close();
+		return retour;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.example.wildwalk.model;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import com.example.wildwalk.dal.DBController;
@@ -43,11 +44,12 @@ public class Point {
 	}
 
 	public Point(int id, double altitude, double latitude, double longitude,
-			String date, Context context) {
+			Date date, Context context) {
 		this.m_idPoint = id;
 		this.m_altitude = altitude;
 		this.m_latitude = latitude;
 		this.m_longitude = longitude;
+		this.m_datePoint = date;
 		this.m_context = context;
 		this.m_exctractedFromDB = true;
 
@@ -75,11 +77,18 @@ public class Point {
 				Point.COL_LATITUDE, Point.COL_LONGITUDE, Point.COL_DATE };
 		Cursor result = db.execSelect(Point.TABLE_NAME, columns, selection,
 				null, "", "", "");
-		Point retour = new Point(result.getInt(Point.NUM_COL_ID),
-				result.getDouble(Point.NUM_COL_ALTITUDE),
-				result.getDouble(Point.NUM_COL_LATITUDE),
-				result.getDouble(Point.NUM_COL_LONGITUDE),
-				result.getString(Point.NUM_COL_DATE), context);
+		result.moveToFirst();
+		Point retour;
+		try {
+			retour = new Point(result.getInt(Point.NUM_COL_ID),
+					result.getDouble(Point.NUM_COL_ALTITUDE),
+					result.getDouble(Point.NUM_COL_LATITUDE),
+					result.getDouble(Point.NUM_COL_LONGITUDE),
+					Hike.DF.parse(result.getString(Point.NUM_COL_DATE)), context);
+		} catch (ParseException e) {
+			retour = null;
+			e.printStackTrace();
+		}
 		db.close();
 		return retour;
 	}

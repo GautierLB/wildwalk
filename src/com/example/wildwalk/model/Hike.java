@@ -148,6 +148,8 @@ public class Hike implements Parcelable {
 		}
 		return retour;
 	}
+	
+	
 
 	/**
 	 * @return the m_nameHike
@@ -186,6 +188,7 @@ public class Hike implements Parcelable {
 
 	public void stop(Point end) {
 		this.m_currentSection.setLastPoint(end);
+		this.m_sections.add(m_currentSection);
 		this.saveHike();
 	}
 
