@@ -25,7 +25,7 @@ public class LocationData implements
 	private static long UPDATE_INTERVAL = MILLISECONDS_PER_SECOND
 			* UPDATE_INTERVAL_IN_SECONDS;
 	// The fastest update frequency, in seconds
-	private static int FASTEST_INTERVAL_IN_SECONDS = 30;
+	private static int FASTEST_INTERVAL_IN_SECONDS = 1;
 	// A fast frequency ceiling in milliseconds
 	private static long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND
 			* FASTEST_INTERVAL_IN_SECONDS;
@@ -51,6 +51,7 @@ public class LocationData implements
 		m_locationRequest.setInterval(UPDATE_INTERVAL);
 		// Set the fastest update interval to 1 second
 		m_locationRequest.setFastestInterval(FASTEST_INTERVAL);
+		m_locationRequest.setSmallestDisplacement(1);
 	}
 
 	public String getLocation() {
@@ -84,15 +85,15 @@ public class LocationData implements
 			this.requestUpdates();
 			if (hikeType.equals("Foot")) {
 				m_hike = new FootHike(first, context);
-				LocationData.UPDATE_INTERVAL_IN_SECONDS = 180;
+				LocationData.UPDATE_INTERVAL_IN_SECONDS = 1;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Bike")) {
 				m_hike = new BikeHike(first, context);
-				LocationData.UPDATE_INTERVAL_IN_SECONDS = 60;
+				LocationData.UPDATE_INTERVAL_IN_SECONDS = 1;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Car")) {
 				m_hike = new CarHike(first,context);
-				LocationData.UPDATE_INTERVAL_IN_SECONDS = 30;
+				LocationData.UPDATE_INTERVAL_IN_SECONDS = 1;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			}
 

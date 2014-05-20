@@ -1,5 +1,9 @@
 package com.example.wildwalk.model;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+
 import com.example.wildwalk.dal.DBController;
 
 import android.content.ContentValues;
@@ -107,6 +111,27 @@ public class Section {
 			db.close();
 		}
 
+	}
+
+	public static ArrayList<Section> getSectionsForHike(int id, Context context) {
+		DBController db = DBController.Get(context);
+		db.open();
+		ArrayList<Section> retour = new ArrayList<Section>();
+		String selection = Section.COL_ID_HIKE + " = " + id;
+		String[] columns = { Section.COL_FIRST_POINT, Section.COL_LAST_POINT };
+		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
+				null, "", "", "");
+		Section actual;
+		while (result.moveToNext()) {
+			actual = new Section(Point.getPointFromDB(
+					result.getInt(Section.NUM_COL_FIRST_POINT), context),
+					context);
+			actual.setLastPoint(Point.getPointFromDB(
+					result.getInt(Section.NUM_COL_LAST_POINT), context));
+			retour.add(actual);		
+		}
+		db.close();
+		return retour;
 	}
 
 	private void updateSection() {
