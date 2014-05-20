@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="true">
-    
-<LinearLayout 
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:scrollbars="vertical" >
+    
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="492dp"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -30,16 +30,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="286dp"
-        android:layout_weight="0.91"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <fragment
-            android:id="@+id/map"
+            android:id="@+id/mapSection"
             android:name="com.example.wildwalk.MapActivity"
             android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            class="com.google.android.gms.maps.SupportMapFragment" />
+            android:layout_height="250dp"
+            class="com.google.android.gms.maps.MapFragment" />
 
         <TextView
             android:id="@+id/date"
@@ -76,11 +75,37 @@
             android:layout_marginLeft="15dp"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/altitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ALTITUDE : "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+            android:id="@+id/altitudeHike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DUREE : "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+            android:id="@+id/speedHike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
     </LinearLayout>
 
 </LinearLayout>

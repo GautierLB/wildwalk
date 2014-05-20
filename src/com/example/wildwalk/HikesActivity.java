@@ -26,8 +26,7 @@ public class HikesActivity extends Fragment {
 	private void HikeFiller() {
 
 		hikeList.clear();
-		Date now = new Date();
-		hikeList.add(Hike.getHikeFromDB(1,this.getActivity()));
+		hikeList.addAll(Hike.getAllHikes(getActivity()));
 
 		/*
 		 * for (int i=1; i<=100;i++){ hikeList.add(new Hike(i,"Hike "+i, now,
