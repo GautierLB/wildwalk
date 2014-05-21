@@ -71,8 +71,7 @@ public class CompassActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		// Lier les évènements de la boussole numérique au listener
-		sensorManager.registerListener(sensorListener, sensor,
-				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(sensorListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	@Override

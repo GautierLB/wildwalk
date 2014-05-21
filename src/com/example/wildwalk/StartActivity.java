@@ -14,6 +14,7 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private int resetChrono=0;
 	private CharSequence tempTime = "00:00";
 	long timeWhenStopped=0;
+	private int hikeUp = 0;
 	GoogleMap map;
 	private int sec=0;
 	@Override
@@ -55,9 +57,14 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		View start = inflater.inflate(R.layout.activity_start, container, false);
 		//location =((TextView) start.findViewById(R.id.textView));
 		btnStart = (Button) start.findViewById(R.id.btnStart);
+		
+
+		btnStart.setBackgroundColor(Color.GREEN);
+		
 		spinner = (Spinner) start.findViewById(R.id.spinner1);
 		//hours = (long) start.findViewById(R.id.);
 		hours = ((TextView) start.findViewById(R.id.hours));
+		
 		loc = new LocationData(this, context);
 		loc.connect();
 		chrono = (Chronometer)start.findViewById(R.id.chronometer1);
@@ -102,15 +109,24 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 			@Override
 			public boolean onLongClick(View v) {
 					// TODO Auto-generated method stub
+				
+				if(hikeUp == 1 ){
 					Toast toastStop = Toast.makeText(context, "La randonnée a duré : " + chrono.getText(), Toast.LENGTH_SHORT);
 					toastStop.show();
 					loc.stopHike();
-					btnStart.setText("START");
+					btnStart.setText("NOUVELLE RANDONNEE");
 					chrono.setBase(SystemClock.elapsedRealtime()); // on reset à 00:00
 					chrono.stop();
 					chronoState = 0;
-					timeWhenStopped =0;
-					return true;
+					timeWhenStopped =0;					
+				}
+				else{
+					Toast toastErr = Toast.makeText(context, "Erreur : Veuillez lancer une randonnée avant de l'arrêter !", Toast.LENGTH_SHORT);
+					toastErr.show();
+				}
+				hikeUp = 0;
+				btnStart.setBackgroundColor(Color.GREEN);
+				return true;
 			}
 		});
 		// press button		
@@ -118,19 +134,17 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View view) {
-				
+				hikeUp = 1;
 				switch (chronoState) {
 				case 0:
 					// START
 					
 					Toast toastStart = Toast.makeText(context, "New hike : "+ hikeType, Toast.LENGTH_SHORT);
 					toastStart.show();
-					
 					chrono.setBase(SystemClock.elapsedRealtime()+timeWhenStopped);
 					chrono.start();
-					
-					
 					btnStart.setText("PAUSE");
+					btnStart.setBackgroundColor(Color.rgb(255, 153, 0));//jaune
 					chronoState = 1;
 					this.getLocation();
 					map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13));
@@ -139,11 +153,11 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					
 				case 1: 
 					// PAUSE
-					
 					long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
 					
 					Toast toastPause = Toast.makeText(context, "Maintenez appuyer pour Stopper ", Toast.LENGTH_SHORT);
 					toastPause.show();
+					btnStart.setBackgroundColor(Color.YELLOW);//jaune
 					timeWhenStopped = chrono.getBase() - SystemClock.elapsedRealtime();
 					chrono.stop();
 					btnStart.setText("CONTINUE");

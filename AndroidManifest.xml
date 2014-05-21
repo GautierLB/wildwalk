@@ -40,6 +40,7 @@
 
         <activity
             android:name="com.example.wildwalk.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,11 +48,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.wildwalk.HikeStatActivity" >
+        <activity android:name="com.example.wildwalk.HikeStatActivity" 
+            	  android:screenOrientation="portrait">
+            
         </activity>
-        <activity android:name="com.example.wildwalk.CompassActivity" >
+        <activity android:name="com.example.wildwalk.CompassActivity" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.example.wildwalk.MapActivity" >
+        <activity android:name="com.example.wildwalk.MapActivity" 
+            android:screenOrientation="portrait">
         </activity>
 
         <meta-data
