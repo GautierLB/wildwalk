@@ -22,23 +22,16 @@ public class CompassView extends View {
 
 	private Path trianglePath;
 
-	// Délais entre chaque image
-	private final int DELAY = 20;
-	// Durée de l'animation
-	private final int DURATION = 1000;
+	private final int DELAY = 1;// Délais entre chaque image
+	private final int DURATION = 1000;// Durée de l'animation
 
 	private float startNorthOrientation;
 	private float endNorthOrientation;
 
-	// Heure de début de l’animation (ms)
-	private long startTime;
-
-	// Pourcentage d'évolution de l'animation
-	private float perCent;
-	// Temps courant
-	private long curTime;
-	// Temps total depuis le début de l'animation
-	private long totalTime;
+	private long startTime;// Heure de début de l’animation (ms)
+	private float perCent;// Pourcentage d'évolution de l'animation
+	private long curTime;// Temps courant
+	private long totalTime;// Temps total depuis le début de l'animation
 
 	private Runnable animationTask = new Runnable() {
 		public void run() {
@@ -46,25 +39,22 @@ public class CompassView extends View {
 			totalTime = curTime - startTime;
 
 			if (totalTime > DURATION) {
-				northOrientation = endNorthOrientation % 360;
+				northOrientation = endNorthOrientation%360;
 				removeCallbacks(animationTask);
 			} else {
 				perCent = ((float) totalTime) / DURATION;
 
 				// Animation plus réaliste de l'aiguille
-				perCent = (float) Math.sin(perCent * 1.5);
+				perCent = (float) Math.sin(perCent*1.5);
 				perCent = Math.min(perCent, 1);
-				northOrientation = (float) (startNorthOrientation + perCent
-						* (endNorthOrientation - startNorthOrientation));
+				northOrientation = (float) (startNorthOrientation+perCent*(endNorthOrientation-startNorthOrientation));
 				postDelayed(this, DELAY);
 			}
-
-			// on demande à notre vue de se redessiner
-			invalidate();
+			invalidate();// repaint de la vue
 		}
 	};
 
-	// ~--- constructors -------------------------------------------------------
+	// Constructeurs
 
 	// Constructeur par défaut de la vue
 	public CompassView(Context context) {
@@ -79,46 +69,38 @@ public class CompassView extends View {
 	}
 
 	// idem au précédant
-	public CompassView(Context context, AttributeSet attrs, int defStyle) {
+	public CompassView(Context context, AttributeSet attrs, int defStyle){
 		super(context, attrs, defStyle);
 		initView();
 	}
 
-	// ~--- get methods --------------------------------------------------------
-
-	// permet de récupérer l'orientation de la boussole
-	public float getNorthOrientation() {
+	// récupérer orientation boussole
+	public float getNorthOrientation(){
 		return northOrientation;
 	}
 
-	// ~--- set methods --------------------------------------------------------
+	// Changer l'orientation de la boussole
+	public void setNorthOrientation(float rotation){
 
-	// permet de changer l'orientation de la boussole
-	public void setNorthOrientation(float rotation) {
-
-		// on met à jour l'orientation uniquement si elle a changé
-		if (rotation != this.northOrientation) {
+		// MAJ de l'orientation ssi elle a changé
+		if (rotation != this.northOrientation){
 			// Arrêter l'ancienne animation
 			removeCallbacks(animationTask);
+			this.startNorthOrientation = this.northOrientation;// Position courante
+			this.endNorthOrientation = rotation;// Position voulue
 
-			// Position courante
-			this.startNorthOrientation = this.northOrientation;
-			// Position désirée
-			this.endNorthOrientation = rotation;
-
-			// Détermination du sens de rotation de l'aiguille
-			if (((startNorthOrientation + 180) % 360) > endNorthOrientation) {
+			// Sens de rotation de l'aiguille
+			if (((startNorthOrientation+180)%360)>endNorthOrientation){
 				// Rotation vers la gauche
-				if ((startNorthOrientation - endNorthOrientation) > 180) {
+				if ((startNorthOrientation-endNorthOrientation)>=180){
 					endNorthOrientation += 360;
 				}
 			} else {
 				// Rotation vers la droite
-				if ((endNorthOrientation - startNorthOrientation) > 180) {
+				if ((endNorthOrientation-startNorthOrientation)>180){
 					startNorthOrientation += 360;
 				}
 			}
-
 			// Nouvelle animation
 			startTime = SystemClock.uptimeMillis();
 			postDelayed(animationTask, DELAY);
@@ -145,7 +127,7 @@ public class CompassView extends View {
 		trianglePath = new Path();
 	}
 
-	// Permet de définir la taille de notre vue par défaut un cadre de 100x100 si non redéfini
+	// Permet de définir la taille de la vue. 100x100 si non redéfini
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int measuredWidth = measure(widthMeasureSpec);
@@ -157,26 +139,22 @@ public class CompassView extends View {
 		setMeasuredDimension(d, d);
 	}
 
-	// Déterminer la taille de notre vue
+	// Déterminer la taille de la vue
 	private int measure(int measureSpec) {
 		int result = 0;
 		int specMode = MeasureSpec.getMode(measureSpec);
 		int specSize = MeasureSpec.getSize(measureSpec);
 
 		if (specMode == MeasureSpec.UNSPECIFIED) {
-
-			// Taille par défaut
-			result = 200;
+			result = 200;// taille par défaut
 		} else {
-
-			// On va prendre la taille de la vue parente
-			result = specSize;
+			result = specSize;// taille vue parent
 		}
 
 		return result;
 	}
 
-	// Appelée pour redessiner la vue
+	// Redessiner la vue
 	@Override
 	protected void onDraw(Canvas canvas) {
 		int centerX = getMeasuredWidth() / 2;
@@ -187,14 +165,13 @@ public class CompassView extends View {
 
 		canvas.drawCircle(centerX, centerY, radius, circlePaint);
 
-		// On sauvegarde la position initiale du canvas
-		canvas.save();
+		
+		canvas.save();// On sauvegarde la position initiale du canvas
 
-		// On tourne le canvas pour que le nord pointe vers le haut
-		canvas.rotate(-northOrientation, centerX, centerY);
+		
+		canvas.rotate(-northOrientation, centerX, centerY);// On tourne le canvas pour que le nord pointe vers le haut
 
-		// on créer une forme triangulaire qui part du centre du cercle et
-		// pointe vers le haut
+		// on créé une forme triangulaire qui part du centre du cercle et pointe vers le haut
 		trianglePath.reset(); // RAZ du path (une seule instance)
 		trianglePath.moveTo(centerX, 10);
 		trianglePath.lineTo(centerX - 10, centerY);

@@ -7,7 +7,7 @@
 	<string name="menu_settings">Options</string>
 	<string name="hike_list_text_header">Hikes Done</string>
 	<string name="hike_list_title">Hike</string>
-	<string name="btn_start">Start</string>
+	<string name="btn_start">NOUVELLE RANDONNEE</string>
 	<string name="hike_prompt">Choose</string>
     <string-array name="hike_arrays">
         <item>Foot</item>
