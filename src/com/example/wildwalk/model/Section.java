@@ -149,12 +149,17 @@ public class Section {
 
 	public double getAverageSpeed() {
 		float length = this.getDistance();
-		long secondes = this.m_lastPoint.getdatePoint().getTime()
-				- this.m_firstPoint.getdatePoint().getTime();
+		long secondes = this.getDuration();
 		double speedMs = length / secondes;
 		return speedMs * 3.6;
 	}
 
+	public long getDuration()
+	{
+		long secondes = this.m_lastPoint.getdatePoint().getTime()
+				- this.m_firstPoint.getdatePoint().getTime();
+		return secondes;
+	}
 	public float getDistance() {
 		Location loc1 = new Location("");
 		loc1.setAltitude(this.m_firstPoint.getaltitude());
