@@ -38,6 +38,7 @@ public class Hike implements Parcelable {
 	private Context m_context;
 	private ArrayList<Section> m_sections;
 	private Boolean m_exctractedFromDB;
+	private static int lastId = 1;
 
 	public Hike(Section section, Context context) {
 		this.m_dateHike = new Date();
@@ -69,13 +70,16 @@ public class Hike implements Parcelable {
 		db.open();
 		String query = "SELECT MAX(" + Hike.COL_ID + ") FROM "
 				+ Hike.TABLE_NAME;
-		int retour = 1;
-		try {
-			retour = (db.execRawQuery(query).getInt(Hike.NUM_COL_ID)) + 1;
-		} catch (IndexOutOfBoundsException e) {
+		if (Hike.lastId == 1) {
+			try {
+				Hike.lastId = (db.execRawQuery(query).getInt(0)) + 1;
+			} catch (IndexOutOfBoundsException e) {
+			}
+		} else {
+			Hike.lastId++;
 		}
 		db.close();
-		return retour;
+		return Hike.lastId;
 	}
 
 	public static Hike getHikeFromDB(int id, Context context) {
@@ -105,9 +109,8 @@ public class Hike implements Parcelable {
 		return retour;
 
 	}
-	
-	public static ArrayList<Hike> getAllHikes(Context context)
-	{
+
+	public static ArrayList<Hike> getAllHikes(Context context) {
 		DBController db = DBController.Get(context);
 		db.open();
 		ArrayList<Hike> retour = new ArrayList<Hike>();
@@ -124,33 +127,31 @@ public class Hike implements Parcelable {
 				actual = new Hike(result.getInt(Hike.NUM_COL_ID),
 						result.getString(Hike.NUM_COL_NAME), DF.parse(bete),
 						result.getInt(Hike.NUM_COL_KM), context);
-				ArrayList<Section> sections = Section.getSectionsForHike(result.getInt(Hike.NUM_COL_ID), context);
+				ArrayList<Section> sections = Section.getSectionsForHike(
+						result.getInt(Hike.NUM_COL_ID), context);
 				actual.setSections(sections);
 				retour.add(actual);
 			} catch (ParseException e) {
 				e.printStackTrace();
 				actual = new Hike(0, "hh", new Date(), 12, context);
 			}
-		} 
+		}
 		db.close();
 		return retour;
 	}
-	
-	public static int getNbHike(Context context)
-	{
+
+	public static int getNbHike(Context context) {
 		DBController db = DBController.Get(context);
 		db.open();
-		String query = "SELECT COUNT(" + Hike.COL_ID + ") FROM " + Hike.TABLE_NAME;
+		String query = "SELECT COUNT(" + Hike.COL_ID + ") FROM "
+				+ Hike.TABLE_NAME;
 		Cursor result = db.execRawQuery(query);
 		int retour = 0;
-		if (result.moveToFirst())
-		{
+		if (result.moveToFirst()) {
 			retour = result.getInt(0);
 		}
 		return retour;
 	}
-	
-	
 
 	/**
 	 * @return the m_nameHike
@@ -236,8 +237,8 @@ public class Hike implements Parcelable {
 			hikeContent.put(Hike.COL_DATE, DF.format(this.m_dateHike));
 			hikeContent.put(Hike.COL_KM, this.m_kmHike);
 			db.execInsert("HIKE", hikeContent);
-			for (Section section : this.getSections()) {
-				section.saveSection(this.m_idHike);
+			for (Section section : this.m_sections) {
+				section.saveSection(this.m_idHike, this.m_context);
 			}
 			db.close();
 		}

@@ -35,7 +35,7 @@ public class HikeStatActivity extends FragmentActivity {
 		Point lastZoomPoint;
 		Point firstPoint;
 		Point lastPoint;
-		//Double altitude = hike.getDifferenceInHeight();
+		Double altitude = hike.getDifferenceInHeight();
 		//Double speed = hike.getAverageSpeed();
 
 		TextView nameHike = (TextView) findViewById(R.id.nameHike);
@@ -47,9 +47,9 @@ public class HikeStatActivity extends FragmentActivity {
 		nameHike.setText(hike.getNameHike());
 		dateHike.setText(String.valueOf(hike.getDateHike()));
 		kmHike.setText(String.valueOf(hike.getKmHike()));
-		/*if (altitude != null) {
+		if (altitude != null) {
 			altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight()));
-		} else*/
+		} /*else
 			altitudeHike.setText("0");
 		/*if (speed != null) {
 			speedHike.setText(String.valueOf(hike.getAverageSpeed()));

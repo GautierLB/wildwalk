@@ -31,6 +31,7 @@ public class Point {
 	private Date m_datePoint;
 	private Context m_context;
 	private Boolean m_exctractedFromDB;
+	private static int lastId = 1;
 
 	public Point(double latitude, double altitude, double longitude,
 			Context context) {
@@ -60,13 +61,16 @@ public class Point {
 		db.open();
 		String query = "SELECT MAX(" + Point.COL_ID + ") FROM "
 				+ Point.TABLE_NAME;
-		int retour = 1;
-		try {
-			retour = (db.execRawQuery(query).getInt(Point.NUM_COL_ID))+1;
-		} catch (IndexOutOfBoundsException e) {
+		if (Point.lastId == 1) {
+			try {
+				Point.lastId = (db.execRawQuery(query).getInt(0)) + 1;
+			} catch (IndexOutOfBoundsException e) {
+			}
+		} else {
+			Point.lastId++;
 		}
 		db.close();
-		return retour;
+		return Point.lastId;
 	}
 
 	public static Point getPointFromDB(int id, Context context) {
@@ -84,7 +88,8 @@ public class Point {
 					result.getDouble(Point.NUM_COL_ALTITUDE),
 					result.getDouble(Point.NUM_COL_LATITUDE),
 					result.getDouble(Point.NUM_COL_LONGITUDE),
-					Hike.DF.parse(result.getString(Point.NUM_COL_DATE)), context);
+					Hike.DF.parse(result.getString(Point.NUM_COL_DATE)),
+					context);
 		} catch (ParseException e) {
 			retour = null;
 			e.printStackTrace();
@@ -121,18 +126,18 @@ public class Point {
 		return m_datePoint;
 	}
 
-	public void savePoint() {
+	public void savePoint(Context context) {
 		if (this.m_exctractedFromDB) {
 			this.updatePoint();
 		} else {
-			DBController db = DBController.Get(this.m_context);
+			DBController db = DBController.Get(context);
 			db.open();
 			ContentValues pointContent = new ContentValues();
 			pointContent.putNull(Point.COL_ID);
 			pointContent.put(Point.COL_ALTITUDE, this.m_altitude);
 			pointContent.put(Point.COL_LATITUDE, this.m_latitude);
 			pointContent.put(Point.COL_LONGITUDE, this.m_longitude);
-			pointContent.put(Point.COL_DATE, this.m_datePoint.toString());
+			pointContent.put(Point.COL_DATE, Hike.DF.format(this.m_datePoint));
 			db.execInsert("POINT", pointContent);
 			db.close();
 		}
