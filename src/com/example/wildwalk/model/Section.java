@@ -30,6 +30,7 @@ public class Section {
 	private Point m_lastPoint;
 	private Context m_context;
 	private Boolean m_exctractedFromDB;
+	private static int lastId = 1;
 
 	public Section(Point firstPoint, Context context) {
 		this.m_firstPoint = firstPoint;
@@ -51,13 +52,17 @@ public class Section {
 		db.open();
 		String query = "SELECT MAX(" + Section.COL_ID + ") FROM "
 				+ Section.TABLE_NAME;
-		int retour = 1;
-		try {
-			retour = (db.execRawQuery(query).getInt(Section.NUM_COL_ID)) + 1;
-		} catch (IndexOutOfBoundsException e) {
+		if (Section.lastId == 1) {
+			try {
+				Section.lastId = (db.execRawQuery(query)
+						.getInt(0)) + 1;
+			} catch (IndexOutOfBoundsException e) {
+			}
+		} else {
+			Section.lastId++;
 		}
 		db.close();
-		return retour;
+		return Section.lastId;
 	}
 
 	public static Section getPointFromDB(int id, Context context) {
@@ -94,11 +99,11 @@ public class Section {
 		this.m_lastPoint = lastPoint;
 	}
 
-	public void saveSection(int id_hike) {
+	public void saveSection(int id_hike, Context context) {
 		if (m_exctractedFromDB) {
 			this.updateSection();
 		} else {
-			DBController db = DBController.Get(this.m_context);
+			DBController db = DBController.Get(context);
 			db.open();
 			ContentValues sectionContent = new ContentValues();
 			sectionContent.putNull(Section.COL_ID);
@@ -108,8 +113,8 @@ public class Section {
 			sectionContent.put(Section.COL_LAST_POINT,
 					this.m_lastPoint.getIdPoint());
 			db.execInsert("SECTION", sectionContent);
-			this.m_firstPoint.savePoint();
-			this.m_lastPoint.savePoint();
+			this.m_firstPoint.savePoint(context);
+			this.m_lastPoint.savePoint(context);
 			db.close();
 		}
 
@@ -119,8 +124,9 @@ public class Section {
 		DBController db = DBController.Get(context);
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
-		String selection = Section.COL_ID_HIKE + " = " + id;
-		String[] columns = {Section.COL_ID};
+		//String selection = Section.COL_ID_HIKE + " = " + id;
+		String selection = "";
+		String[] columns = { Section.COL_ID };
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Section actual;
@@ -139,7 +145,8 @@ public class Section {
 	}
 
 	public double getDifferenceInHieght() {
-		double difference = (this.m_lastPoint.getaltitude() - this.m_firstPoint.getaltitude());
+		double difference = (this.m_lastPoint.getaltitude() - this.m_firstPoint
+				.getaltitude());
 		if (difference > 0) {
 			return difference;
 		} else {
@@ -154,12 +161,12 @@ public class Section {
 		return speedMs * 3.6;
 	}
 
-	public long getDuration()
-	{
+	public long getDuration() {
 		long secondes = this.m_lastPoint.getdatePoint().getTime()
 				- this.m_firstPoint.getdatePoint().getTime();
 		return secondes;
 	}
+
 	public float getDistance() {
 		Location loc1 = new Location("");
 		loc1.setAltitude(this.m_firstPoint.getaltitude());
@@ -179,7 +186,7 @@ public class Section {
 		for (Section sec : sections) {
 			retour += sec.getDifferenceInHieght();
 		}
-		return (int)retour;
+		return (int) retour;
 	}
 
 	public static int getAlldistance(Context context) {
@@ -188,20 +195,19 @@ public class Section {
 		for (Section sec : sections) {
 			retour += sec.getDistance();
 		}
-		return (int)retour;
+		return (int) retour;
 	}
 
-	public static int getAllAverageSpeed (Context context)
-	{
+	public static int getAllAverageSpeed(Context context) {
 		ArrayList<Section> sections = Section.getAllSections(context);
 		double retour = 0;
 		for (Section sec : sections) {
 			retour += sec.getAverageSpeed();
 		}
-		if (sections.size() != 0){
-		retour /= sections.size();
+		if (sections.size() != 0) {
+			retour /= sections.size();
 		}
-		return (int)retour;
+		return (int) retour;
 	}
 
 	public static ArrayList<Section> getAllSections(Context context) {
@@ -209,7 +215,7 @@ public class Section {
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
 		String selection = "";
-		String[] columns = {Section.COL_ID};
+		String[] columns = { Section.COL_ID };
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Section actual;
