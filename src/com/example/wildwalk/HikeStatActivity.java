@@ -35,7 +35,7 @@ public class HikeStatActivity extends FragmentActivity {
 		Point lastZoomPoint;
 		Point firstPoint;
 		Point lastPoint;
-		//Double altitude = hike.getDifferenceInHieght();
+		//Double altitude = hike.getDifferenceInHeight();
 		//Double speed = hike.getAverageSpeed();
 
 		TextView nameHike = (TextView) findViewById(R.id.nameHike);
@@ -48,32 +48,35 @@ public class HikeStatActivity extends FragmentActivity {
 		dateHike.setText(String.valueOf(hike.getDateHike()));
 		kmHike.setText(String.valueOf(hike.getKmHike()));
 		/*if (altitude != null) {
-			altitudeHike.setText(String.valueOf(hike.getDifferenceInHieght()));
-		} else
+			altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight()));
+		} else*/
 			altitudeHike.setText("0");
-		if (speed != null) {
+		/*if (speed != null) {
 			speedHike.setText(String.valueOf(hike.getAverageSpeed()));
-		} else
-			speedHike.setText("0");*/
+		} else*/
+			speedHike.setText("0");
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(
 				R.id.mapSection)).getMap();
 
-		/*
-		 * sectionList = hike.getSections(); ZoomSection = sectionList.get(0);
-		 * firstZoomPoint = ZoomSection.getfirstPoint(); lastZoomPoint =
-		 * ZoomSection.getLastPoint(); for(Section section : sectionList){
-		 * firstPoint = section.getfirstPoint(); lastPoint =
-		 * section.getLastPoint(); LatLngList.add(new
-		 * LatLng(firstPoint.getlatitude(),firstPoint.getlongitude()));
-		 * LatLngList.add(new
-		 * LatLng(lastPoint.getlatitude(),lastPoint.getlongitude())); }
-		 * 
-		 * map.moveCamera(CameraUpdateFactory.newLatLngZoom( new
-		 * LatLng(firstZoomPoint.getlatitude(), lastZoomPoint.getlatitude()),
-		 * 14)); //Polylines are useful for marking paths and routes on the map.
-		 * map.addPolyline(new PolylineOptions().geodesic(true)
-		 * .addAll(LatLngList));
-		 */
+		map.getUiSettings().setAllGesturesEnabled(false);
+		sectionList = hike.getSections();
+		if (sectionList != null){
+			ZoomSection = sectionList.get(0);
+			firstZoomPoint = ZoomSection.getfirstPoint();
+			lastZoomPoint = ZoomSection.getLastPoint();
+			for (Section section : sectionList) {
+				firstPoint = section.getfirstPoint();
+				lastPoint = section.getLastPoint();
+				LatLngList.add(new LatLng(firstPoint.getlatitude(), firstPoint
+						.getlongitude()));
+				LatLngList.add(new LatLng(lastPoint.getlatitude(), lastPoint
+						.getlongitude()));
+			}
+	
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+					firstZoomPoint.getlatitude(), lastZoomPoint.getlatitude()), 14)); 
+			map.addPolyline(new PolylineOptions().geodesic(true).addAll(LatLngList));
+		}
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
