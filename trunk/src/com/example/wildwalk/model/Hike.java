@@ -117,6 +117,7 @@ public class Hike implements Parcelable {
 		Cursor result = db.execSelect(Hike.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Hike actual = null;
+		result.moveToFirst();
 		while (result.moveToNext()) {
 			try {
 				String bete = result.getString(NUM_COL_DATE);
