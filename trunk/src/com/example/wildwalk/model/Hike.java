@@ -258,7 +258,7 @@ public class Hike implements Parcelable {
 		}
 	}
 
-	public double getDifferenceInHieght() {
+	public double getDifferenceInHeight() {
 		double result = 0;
 		for (Section section : this.getSections()) {
 			result += section.getDifferenceInHieght();
