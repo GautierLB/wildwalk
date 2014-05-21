@@ -170,33 +170,33 @@ public class Section {
 
 	public static int getAllDifferenceInHieght(Context context) {
 		ArrayList<Section> sections = Section.getAllSections(context);
-		int retour = 0;
+		double retour = 0;
 		for (Section sec : sections) {
 			retour += sec.getDifferenceInHieght();
 		}
-		return retour;
+		return (int)retour;
 	}
 
 	public static int getAlldistance(Context context) {
 		ArrayList<Section> sections = Section.getAllSections(context);
-		int retour = 0;
+		double retour = 0;
 		for (Section sec : sections) {
 			retour += sec.getDistance();
 		}
-		return retour;
+		return (int)retour;
 	}
 
 	public static int getAllAverageSpeed (Context context)
 	{
 		ArrayList<Section> sections = Section.getAllSections(context);
-		int retour = 0;
+		double retour = 0;
 		for (Section sec : sections) {
 			retour += sec.getAverageSpeed();
 		}
 		if (sections.size() != 0){
 		retour /= sections.size();
 		}
-		return retour;
+		return (int)retour;
 	}
 
 	public static ArrayList<Section> getAllSections(Context context) {
