@@ -142,14 +142,10 @@ public class Section {
 
 	}
 
-	public double getDifferenceInHieght() {
+	public double getDifferenceInHeight() {
 		double difference = (this.m_lastPoint.getaltitude() - this.m_firstPoint
 				.getaltitude());
-		if (difference > 0) {
-			return difference;
-		} else {
-			return 0;
-		}
+		return difference;
 	}
 
 	public double getAverageSpeed() {
@@ -182,7 +178,7 @@ public class Section {
 		ArrayList<Section> sections = Section.getAllSections(context);
 		double retour = 0;
 		for (Section sec : sections) {
-			retour += sec.getDifferenceInHieght();
+			retour += sec.getDifferenceInHeight();
 		}
 		return (int) retour;
 	}

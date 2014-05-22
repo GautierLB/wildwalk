@@ -22,9 +22,6 @@ public class StatsGlobalActivity extends Fragment{
 	    GlobalStats globalStats_data[] = new GlobalStats[]
 	            {
 	    		new GlobalStats("Total Hikes Done : ", Integer.toString(Hike.getNbHike(this.getActivity()))),
-	    		new GlobalStats("Foot Hikes Done : ", "50"),
-	    		new GlobalStats("Bike Hikes Done : ", "30"),
-	    		new GlobalStats("Car Hikes Done : ", "20"),
 	    		new GlobalStats("Total Difference in Height : ", Integer.toString(Section.getAllDifferenceInHieght(this.getActivity()))),
 	    		new GlobalStats("Total Distance : ", Integer.toString(Section.getAlldistance(this.getActivity()))),
 	    		new GlobalStats("Average Speed : ", Integer.toString(Section.getAllAverageSpeed(this.getActivity())))
