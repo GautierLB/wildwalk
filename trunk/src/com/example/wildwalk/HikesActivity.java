@@ -21,20 +21,16 @@ import android.widget.Toast;
 
 public class HikesActivity extends Fragment {
 
-	private ListView hikeListView;
+	public ListView hikeListView;
 	List<Hike> hikeList = new ArrayList<Hike>();
 
-	private void HikeFiller() {
+	public void HikeFiller() {
 
 		hikeList.clear();
 		hikeList.addAll(Hike.getAllHikes(getActivity()));
-		
-	
-		/*
-		 * for (int i=1; i<=100;i++){ hikeList.add(new Hike(i,"Hike "+i, now,
-		 * 50, this.getActivity())); }
-		 */
 	}
+	
+
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -50,6 +46,8 @@ public class HikesActivity extends Fragment {
 					R.layout.activity_hike_list, hikeList);
 
 			hikeListView.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
+			
 
 			hikeListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -63,10 +61,22 @@ public class HikesActivity extends Fragment {
 					startActivity(intent);
 				}
 			});
+			
+			refill(hikeList);
+			
 		}
 
 		return stats;
 
 	}
+	
+	private void refill(List<Hike> hikeList) {
+		hikeList.clear();
+		hikeList.addAll(Hike.getAllHikes(getActivity()));
+	}
+	
+
+
+	
 
 }
