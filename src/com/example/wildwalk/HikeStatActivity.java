@@ -12,8 +12,6 @@ import com.example.wildwalk.model.Section;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -35,8 +33,6 @@ public class HikeStatActivity extends FragmentActivity {
 		Point lastZoomPoint;
 		Point firstPoint;
 		Point lastPoint;
-		Double altitude = hike.getDifferenceInHeight();
-		//Double speed = hike.getAverageSpeed();
 
 		TextView nameHike = (TextView) findViewById(R.id.nameHike);
 		TextView dateHike = (TextView) findViewById(R.id.dateHike);
@@ -47,19 +43,14 @@ public class HikeStatActivity extends FragmentActivity {
 		nameHike.setText(hike.getNameHike());
 		dateHike.setText(String.valueOf(hike.getDateHike()));
 		kmHike.setText(String.valueOf(hike.getKmHike()));
-		if (altitude != null) {
-			altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight()));
-		} /*else
-			altitudeHike.setText("0");
-		/*if (speed != null) {
-			speedHike.setText(String.valueOf(hike.getAverageSpeed()));
-		} else*/
-			speedHike.setText("0");
+		//altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight()));
+		//speedHike.setText(String.valueOf(hike.getAverageSpeed()));
+
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(
 				R.id.mapSection)).getMap();
 
 		map.getUiSettings().setAllGesturesEnabled(false);
-		sectionList = hike.getSections();
+		sectionList = Section.getSectionsForHike(hike.getIdHike(), this);
 		if (sectionList != null){
 			ZoomSection = sectionList.get(0);
 			firstZoomPoint = ZoomSection.getfirstPoint();
