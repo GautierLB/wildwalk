@@ -80,6 +80,7 @@ public class Point {
 				Point.COL_LATITUDE, Point.COL_LONGITUDE, Point.COL_DATE };
 		Cursor result = db.execSelect(Point.TABLE_NAME, columns, selection,
 				null, "", "", "");
+		result.moveToFirst();
 		Point retour;
 		try {
 			retour = new Point(result.getInt(Point.NUM_COL_ID),
