@@ -75,7 +75,8 @@ public class Point {
 	public static Point getPointFromDB(int id, Context context) {
 		DBController db = DBController.Get(context);
 		db.open();
-		String selection = Point.COL_ID + " = " + id;
+		//String selection = Point.COL_ID + " = " + id;
+		String selection = "";
 		String[] columns = { Point.COL_ID, Point.COL_ALTITUDE,
 				Point.COL_LATITUDE, Point.COL_LONGITUDE, Point.COL_DATE };
 		Cursor result = db.execSelect(Point.TABLE_NAME, columns, selection,
