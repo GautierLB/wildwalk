@@ -123,12 +123,10 @@ public class Section {
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
 		String selection = Section.COL_ID_HIKE + " = " + id;
-		//String selection = "";
 		String[] columns = { Section.COL_ID, Section.COL_FIRST_POINT, Section.COL_LAST_POINT };
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Section actual;
-		result.moveToFirst();
 		while (result.moveToNext()) {
 			actual = new Section(result.getInt(0), result.getInt(1), result.getInt(2), context);
 			retour.add(actual);
@@ -213,7 +211,6 @@ public class Section {
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Section actual;
-		result.moveToFirst();
 		while (result.moveToNext()) {
 			actual = new Section(result.getInt(0), result.getInt(1), result.getInt(2), context);
 			retour.add(actual);
