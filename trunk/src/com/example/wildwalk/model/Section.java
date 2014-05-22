@@ -53,11 +53,9 @@ public class Section {
 		String query = "SELECT MAX(" + Section.COL_ID + ") FROM "
 				+ Section.TABLE_NAME;
 		if (Section.lastId == 1) {
-			try {
-				Section.lastId = (db.execRawQuery(query)
-						.getInt(0)) + 1;
-			} catch (IndexOutOfBoundsException e) {
-			}
+			Cursor lastSection = db.execRawQuery(query);
+			lastSection.moveToFirst();
+			Section.lastId = lastSection.getInt(0) + 1;
 		} else {
 			Section.lastId++;
 		}
@@ -124,7 +122,7 @@ public class Section {
 		DBController db = DBController.Get(context);
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
-		//String selection = Section.COL_ID_HIKE + " = " + id;
+		// String selection = Section.COL_ID_HIKE + " = " + id;
 		String selection = "";
 		String[] columns = { Section.COL_ID };
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,

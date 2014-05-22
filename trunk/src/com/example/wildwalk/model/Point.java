@@ -62,10 +62,9 @@ public class Point {
 		String query = "SELECT MAX(" + Point.COL_ID + ") FROM "
 				+ Point.TABLE_NAME;
 		if (Point.lastId == 1) {
-			try {
-				Point.lastId = (db.execRawQuery(query).getInt(0)) + 1;
-			} catch (IndexOutOfBoundsException e) {
-			}
+			Cursor lastPoint = db.execRawQuery(query);
+			lastPoint.moveToFirst();
+			Point.lastId = lastPoint.getInt(0) + 1;
 		} else {
 			Point.lastId++;
 		}

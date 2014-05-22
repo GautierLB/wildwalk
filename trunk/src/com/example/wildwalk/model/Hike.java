@@ -71,10 +71,9 @@ public class Hike implements Parcelable {
 		String query = "SELECT MAX(" + Hike.COL_ID + ") FROM "
 				+ Hike.TABLE_NAME;
 		if (Hike.lastId == 1) {
-			try {
-				Hike.lastId = (db.execRawQuery(query).getInt(0)) + 1;
-			} catch (IndexOutOfBoundsException e) {
-			}
+			Cursor lastHike = db.execRawQuery(query);
+			lastHike.moveToFirst();
+			Hike.lastId = lastHike.getInt(0) +1;		
 		} else {
 			Hike.lastId++;
 		}
