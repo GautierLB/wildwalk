@@ -29,7 +29,9 @@ public class HikeStatActivity extends FragmentActivity {
 		ArrayList<Section> sectionList = new ArrayList<Section>();
 		List<LatLng> LatLngList = new ArrayList<LatLng>();
 		Section ZoomSection;
+		Section FinalSection;
 		Point firstZoomPoint;
+		Point finalPoint;
 		Point firstPoint;
 		Point lastPoint;
 
@@ -55,6 +57,8 @@ public class HikeStatActivity extends FragmentActivity {
 		if (sectionList != null){
 			ZoomSection = sectionList.get(0);
 			firstZoomPoint = ZoomSection.getfirstPoint();
+			FinalSection = sectionList.get(sectionList.size() - 1);
+			finalPoint = FinalSection.getfirstPoint();
 			for (Section section : sectionList) {
 				firstPoint = section.getfirstPoint();
 				lastPoint = section.getLastPoint();
@@ -66,6 +70,12 @@ public class HikeStatActivity extends FragmentActivity {
 	
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
 					firstZoomPoint.getlatitude(), firstZoomPoint.getlongitude()), 14)); 
+			map.addMarker(new MarkerOptions()
+	        .position(new LatLng(firstZoomPoint.getlatitude(), firstZoomPoint.getlongitude()))
+	        .title("Départ"));
+			map.addMarker(new MarkerOptions()
+	        .position(new LatLng(finalPoint.getlatitude(), finalPoint.getlongitude()))
+	        .title("Arrivée"));
 			map.addPolyline(new PolylineOptions().geodesic(true).addAll(LatLngList));
 		}
 
