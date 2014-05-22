@@ -213,13 +213,14 @@ public class Section {
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
 		String selection = "";
-		String[] columns = { Section.COL_ID };
+		String[] columns = { Section.COL_ID, Section.COL_FIRST_POINT, Section.COL_LAST_POINT };
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Section actual;
 		result.moveToFirst();
 		while (result.moveToNext()) {
-			actual = Section.getPointFromDB(result.getInt(0), context);
+			actual = new Section(result.getInt(0), result.getInt(1), result.getInt(2), context);
+			retour.add(actual);
 		}
 		db.close();
 		return retour;
