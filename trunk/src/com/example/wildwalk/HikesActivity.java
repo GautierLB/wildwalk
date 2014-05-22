@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.wildwalk.model.Hike;
+import com.example.wildwalk.model.Section;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +28,8 @@ public class HikesActivity extends Fragment {
 
 		hikeList.clear();
 		hikeList.addAll(Hike.getAllHikes(getActivity()));
-
+		
+	
 		/*
 		 * for (int i=1; i<=100;i++){ hikeList.add(new Hike(i,"Hike "+i, now,
 		 * 50, this.getActivity())); }

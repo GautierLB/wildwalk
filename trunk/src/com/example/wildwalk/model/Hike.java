@@ -237,7 +237,7 @@ public class Hike implements Parcelable {
 			hikeContent.put(Hike.COL_KM, this.m_kmHike);
 			db.execInsert("HIKE", hikeContent);
 			for (Section section : this.m_sections) {
-				section.saveSection(this.m_idHike, this.m_context);
+				section.saveSection(this.m_idHike);
 			}
 			db.close();
 		}
@@ -261,7 +261,7 @@ public class Hike implements Parcelable {
 	public double getDifferenceInHeight() {
 		double result = 0;
 		for (Section section : this.getSections()) {
-			result += section.getDifferenceInHieght();
+			result += section.getDifferenceInHeight();
 		}
 		return result;
 	}
