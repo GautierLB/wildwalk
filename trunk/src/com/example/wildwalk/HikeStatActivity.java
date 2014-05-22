@@ -26,11 +26,10 @@ public class HikeStatActivity extends FragmentActivity {
 		setContentView(R.layout.activity_hike_stat);
 		Bundle i = getIntent().getExtras();
 		Hike hike = i.getParcelable("Hike");
-		List<Section> sectionList = new ArrayList<Section>();
+		ArrayList<Section> sectionList = new ArrayList<Section>();
 		List<LatLng> LatLngList = new ArrayList<LatLng>();
 		Section ZoomSection;
 		Point firstZoomPoint;
-		Point lastZoomPoint;
 		Point firstPoint;
 		Point lastPoint;
 
@@ -40,21 +39,22 @@ public class HikeStatActivity extends FragmentActivity {
 		TextView altitudeHike = (TextView) findViewById(R.id.altitudeHike);
 		TextView speedHike = (TextView) findViewById(R.id.speedHike);
 
+		sectionList = Section.getSectionsForHike(hike.getIdHike(), this);
 		nameHike.setText(hike.getNameHike());
 		dateHike.setText(String.valueOf(hike.getDateHike()));
 		kmHike.setText(String.valueOf(hike.getKmHike()));
-		//altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight()));
-		//speedHike.setText(String.valueOf(hike.getAverageSpeed()));
+		hike.setSections(sectionList);
+		altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight()));
+		speedHike.setText(String.valueOf(hike.getAverageSpeed()));
 
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(
 				R.id.mapSection)).getMap();
 
 		map.getUiSettings().setAllGesturesEnabled(false);
-		sectionList = Section.getSectionsForHike(hike.getIdHike(), this);
+		
 		if (sectionList != null){
 			ZoomSection = sectionList.get(0);
 			firstZoomPoint = ZoomSection.getfirstPoint();
-			lastZoomPoint = ZoomSection.getLastPoint();
 			for (Section section : sectionList) {
 				firstPoint = section.getfirstPoint();
 				lastPoint = section.getLastPoint();
@@ -65,7 +65,7 @@ public class HikeStatActivity extends FragmentActivity {
 			}
 	
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-					firstZoomPoint.getlatitude(), lastZoomPoint.getlatitude()), 14)); 
+					firstZoomPoint.getlatitude(), firstZoomPoint.getlongitude()), 14)); 
 			map.addPolyline(new PolylineOptions().geodesic(true).addAll(LatLngList));
 		}
 
