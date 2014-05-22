@@ -29,6 +29,8 @@ public class LocationData implements
 	// A fast frequency ceiling in milliseconds
 	private static long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND
 			* FASTEST_INTERVAL_IN_SECONDS;
+	
+	private static int SMALLEST_DISPLACEMENT = 20;
 
 	LocationClient m_locationClient;
 	Context m_context;
@@ -81,21 +83,24 @@ public class LocationData implements
 					currentLocation.getAltitude(),
 					currentLocation.getLongitude(), this.m_context);
 			Section first = new Section(start, this.m_context);
-			m_updatesRequested = true;
-			this.requestUpdates();
 			if (hikeType.equals("Foot")) {
 				m_hike = new FootHike(first, context);
-				LocationData.UPDATE_INTERVAL_IN_SECONDS = 1;
+				LocationData.UPDATE_INTERVAL_IN_SECONDS = 15;
+				LocationData.SMALLEST_DISPLACEMENT = 20;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Bike")) {
 				m_hike = new BikeHike(first, context);
 				LocationData.UPDATE_INTERVAL_IN_SECONDS = 1;
+				LocationData.SMALLEST_DISPLACEMENT = 1;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			} else if (hikeType.equals("Car")) {
 				m_hike = new CarHike(first,context);
-				LocationData.UPDATE_INTERVAL_IN_SECONDS = 1;
+				LocationData.UPDATE_INTERVAL_IN_SECONDS = 10;
+				LocationData.SMALLEST_DISPLACEMENT = 50;
 				m_locationRequest.setInterval(UPDATE_INTERVAL);
 			}
+			m_updatesRequested = true;
+			this.requestUpdates();
 
 		} else {
 			this.onDisconnected();

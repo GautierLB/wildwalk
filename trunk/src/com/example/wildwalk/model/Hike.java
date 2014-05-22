@@ -91,7 +91,6 @@ public class Hike implements Parcelable {
 				null, "", "", "");
 		Hike retour;
 		if (result.moveToFirst()) {
-
 			try {
 				String bete = result.getString(NUM_COL_DATE);
 				retour = new Hike(result.getInt(Hike.NUM_COL_ID),
@@ -237,7 +236,7 @@ public class Hike implements Parcelable {
 			hikeContent.put(Hike.COL_KM, this.m_kmHike);
 			db.execInsert("HIKE", hikeContent);
 			for (Section section : this.m_sections) {
-				section.saveSection(this.m_idHike);
+				section.saveSection(this.m_idHike, this.m_context);
 			}
 			db.close();
 		}
