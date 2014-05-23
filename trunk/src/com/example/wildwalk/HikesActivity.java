@@ -23,6 +23,7 @@ public class HikesActivity extends Fragment {
 
 	public ListView hikeListView;
 	List<Hike> hikeList = new ArrayList<Hike>();
+	private HikeListAdapter adapter;
 
 	public void HikeFiller() {
 
@@ -42,7 +43,7 @@ public class HikesActivity extends Fragment {
 
 			HikeFiller();
 
-			final HikeListAdapter adapter = new HikeListAdapter(getActivity(),
+			adapter = new HikeListAdapter(getActivity(),
 					R.layout.activity_hike_list, hikeList);
 
 			hikeListView.setAdapter(adapter);
@@ -58,11 +59,12 @@ public class HikesActivity extends Fragment {
 					Intent intent = new Intent(v.getContext(),
 							HikeStatActivity.class);
 					intent.putExtra("Hike", adapter.getItem(position));
+					refill(hikeList);
 					startActivity(intent);
 				}
 			});
 			
-			refill(hikeList);
+			
 			
 		}
 
@@ -73,8 +75,20 @@ public class HikesActivity extends Fragment {
 	private void refill(List<Hike> hikeList) {
 		hikeList.clear();
 		hikeList.addAll(Hike.getAllHikes(getActivity()));
+		adapter.notifyDataSetChanged();
 	}
 	
+	@Override
+	public void onResume(){
+		super.onResume();
+		refill(hikeList);
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		refill(hikeList);
+	}
 
 
 	

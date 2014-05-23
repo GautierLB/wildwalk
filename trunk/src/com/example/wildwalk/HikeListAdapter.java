@@ -42,7 +42,6 @@ public class HikeListAdapter extends BaseAdapter {
         	m_holder.imgHike = (ImageView)convertView.findViewById(R.id.imageHike);
             m_holder.nameHike = (TextView)convertView.findViewById(R.id.nameHike);
             m_holder.dateHike = (TextView)convertView.findViewById(R.id.dateHike);
-            m_holder.kmHike = (TextView)convertView.findViewById(R.id.kmHike);
               
             convertView.setTag(m_holder);
         }
@@ -54,8 +53,6 @@ public class HikeListAdapter extends BaseAdapter {
         m_holder.imgHike.setId(R.id.imageHike);
         m_holder.nameHike.setText(String.valueOf(m_hikeList.get(position).getNameHike()));
         m_holder.dateHike.setText(String.valueOf(m_hikeList.get(position).getDateHike()));
-        m_holder.kmHike.setText(String.valueOf(m_hikeList.get(position).getKmHike()));
-        
 
         return convertView;
         
@@ -79,8 +76,6 @@ public class HikeListAdapter extends BaseAdapter {
 		ImageView imgHike;
 	    TextView nameHike;
 	    TextView dateHike;
-	    TextView kmHike;
-	    TextView position;
 	    
 	}
 
