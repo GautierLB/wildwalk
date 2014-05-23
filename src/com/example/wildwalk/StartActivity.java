@@ -51,6 +51,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private int hikeUp = 0;
 	GoogleMap map;
 	private int sec=0;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context= this.getActivity();
@@ -59,14 +60,24 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		btnStart = (Button) start.findViewById(R.id.btnStart);
 		
 
-		btnStart.setBackgroundColor(Color.GREEN);
+		btnStart.setBackgroundColor(Color.rgb(25, 138, 30));
 		
 		spinner = (Spinner) start.findViewById(R.id.spinner1);
 		//hours = (long) start.findViewById(R.id.);
 		hours = ((TextView) start.findViewById(R.id.hours));
 		
+
+	
+		
+		
 		loc = new LocationData(this, context);
 		loc.connect();
+		
+		
+		
+		
+		
+	
 		chrono = (Chronometer)start.findViewById(R.id.chronometer1);
 		//chrono.setFormat("00:00:00");
 		//chrono.setBase(SystemClock.elapsedRealtime());
@@ -103,7 +114,24 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 			}
 			
 		});
-				
+		
+		
+		
+		/*
+		locTimer.setOnChronometerTickListener(new OnChronometerTickListener(){
+
+			@Override
+			public void onChronometerTick(Chronometer arg0) {
+				tick=tick+1;
+				Toast toastStop1 = Toast.makeText(context, tick, Toast.LENGTH_SHORT);
+				toastStop1.show();
+				//while(tick <= 5){
+				//	map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13));
+				//}
+			}
+			
+		});
+			*/	
 		// long press button
 		btnStart.setOnLongClickListener(new OnLongClickListener() { 
 			@Override
@@ -125,7 +153,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					toastErr.show();
 				}
 				hikeUp = 0;
-				btnStart.setBackgroundColor(Color.GREEN);
+				btnStart.setBackgroundColor(Color.rgb(25, 138, 30));
 				return true;
 			}
 		});
@@ -153,6 +181,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 					
 				case 1: 
 					// PAUSE
+					
 					long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
 					
 					Toast toastPause = Toast.makeText(context, "Maintenez appuyer pour Stopper ", Toast.LENGTH_SHORT);
@@ -170,10 +199,13 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				//location.setText(loc.getLocation());
 				
 			}
+			
 
 			
 		});
 
+		
+		
 		
 		
 		return start;
@@ -199,6 +231,9 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 15));
 		
 	}
+	
+
+	
 	
 
 }
