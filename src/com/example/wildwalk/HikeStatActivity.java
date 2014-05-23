@@ -42,12 +42,13 @@ public class HikeStatActivity extends FragmentActivity {
 		TextView speedHike = (TextView) findViewById(R.id.speedHike);
 
 		sectionList = Section.getSectionsForHike(hike.getIdHike(), this);
+		hike.setSections(sectionList);
 		nameHike.setText(hike.getNameHike());
 		dateHike.setText(String.valueOf(hike.getDateHike()));
-		kmHike.setText(String.valueOf(hike.getKmHike()));
-		hike.setSections(sectionList);
-		altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight()));
-		speedHike.setText(String.valueOf(hike.getAverageSpeed()));
+		kmHike.setText(String.valueOf(hike.getDistanceHike())+" m");
+		
+		altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight())+" m");
+		speedHike.setText(String.valueOf(hike.getAverageSpeed())+" km/h");
 
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(
 				R.id.mapSection)).getMap();
