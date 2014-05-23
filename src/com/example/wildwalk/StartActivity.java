@@ -86,7 +86,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		map.setMyLocationEnabled(true);
 		map.getUiSettings().setCompassEnabled(true);
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13));
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 5));
 		
 		
 		

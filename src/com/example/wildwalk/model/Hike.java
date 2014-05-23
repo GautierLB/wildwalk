@@ -122,7 +122,7 @@ public class Hike implements Parcelable {
 			try {
 				String bete = result.getString(NUM_COL_DATE);
 				actual = new Hike(result.getInt(Hike.NUM_COL_ID),
-						result.getString(Hike.NUM_COL_NAME), DF.parse(bete),
+						"Randonnée n°" + result.getInt(Hike.NUM_COL_ID), DF.parse(bete),
 						result.getInt(Hike.NUM_COL_KM), context);
 				ArrayList<Section> sections = Section.getSectionsForHike(
 						result.getInt(Hike.NUM_COL_ID), context);
@@ -289,6 +289,14 @@ public class Hike implements Parcelable {
 
 	public void setSections(ArrayList<Section> m_sections) {
 		this.m_sections = m_sections;
+	}
+	
+	public float getDistanceHike(){
+		float retour = 0;
+		for (Section section : this.m_sections) {
+			retour += section.getDistance();
+		}
+		return retour;
 	}
 
 }

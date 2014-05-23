@@ -123,12 +123,14 @@ public class Section {
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
 		String selection = Section.COL_ID_HIKE + " = " + id;
-		String[] columns = { Section.COL_ID, Section.COL_FIRST_POINT, Section.COL_LAST_POINT };
+		String[] columns = { Section.COL_ID, Section.COL_FIRST_POINT,
+				Section.COL_LAST_POINT };
 		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
 				null, "", "", "");
 		Section actual;
 		while (result.moveToNext()) {
-			actual = new Section(result.getInt(0), result.getInt(1), result.getInt(2), context);
+			actual = new Section(result.getInt(0), result.getInt(1),
+					result.getInt(2), context);
 			retour.add(actual);
 		}
 		db.close();
@@ -165,12 +167,13 @@ public class Section {
 		loc1.setLatitude(this.m_firstPoint.getlatitude());
 		loc1.setLongitude(this.m_firstPoint.getlongitude());
 		Location loc2 = new Location("");
-		loc2.setAltitude(this.m_firstPoint.getaltitude());
-		loc2.setLatitude(this.m_firstPoint.getlatitude());
-		loc2.setLongitude(this.m_firstPoint.getlongitude());
+		loc2.setAltitude(this.m_lastPoint.getaltitude());
+		loc2.setLatitude(this.m_lastPoint.getlatitude());
+		loc2.setLongitude(this.m_lastPoint.getlongitude());
 		float length = loc1.distanceTo(loc2);
 		return length;
 	}
+	
 
 	public static int getAllDifferenceInHieght(Context context) {
 		ArrayList<Section> sections = Section.getAllSections(context);
@@ -207,16 +210,24 @@ public class Section {
 		db.open();
 		ArrayList<Section> retour = new ArrayList<Section>();
 		String selection = "";
-		String[] columns = { Section.COL_ID, Section.COL_FIRST_POINT, Section.COL_LAST_POINT };
-		Cursor result = db.execSelect(Section.TABLE_NAME, columns, selection,
-				null, "", "", "");
-		Section actual;
-		while (result.moveToNext()) {
-			actual = new Section(result.getInt(0), result.getInt(1), result.getInt(2), context);
-			retour.add(actual);
+		String[] columns = { Section.COL_ID, Section.COL_FIRST_POINT,
+				Section.COL_LAST_POINT };
+		Cursor result = null;
+		try {
+			result = db.execSelect(Section.TABLE_NAME, columns, selection,
+					null, "", "", "");
+			Section actual;
+			while (result.moveToNext()) {
+				actual = new Section(result.getInt(0), result.getInt(1),
+						result.getInt(2), context);
+				retour.add(actual);
+			}
+		} finally {
+			if (result != null) {
+				result.close();
+			}
 		}
 		db.close();
 		return retour;
 	}
-
 }
