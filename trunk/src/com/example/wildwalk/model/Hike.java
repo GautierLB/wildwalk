@@ -266,7 +266,7 @@ public class Hike implements Parcelable {
 
 	public double getAverageSpeed() {
 		double result = 0;
-		long secondes = this.getLength();
+		long secondes = this.getLength()/1000;
 		result = (this.getDistanceHike() / secondes)*3.6;	
 		return result;
 	}
