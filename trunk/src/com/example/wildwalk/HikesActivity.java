@@ -83,5 +83,4 @@ public class HikesActivity extends Fragment {
 		super.onResume();
 		refill(hikeList);
 	}
-	
 }

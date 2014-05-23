@@ -34,6 +34,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Chronometer.OnChronometerTickListener;
+
 public class StartActivity extends Fragment implements LocationDataInterface {
 	private Button btnStart;
 	private Context context;
@@ -45,111 +46,112 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 	private String hikeType;
 	private Chronometer chrono;
 	private int chronoState = 0;
-	private int resetChrono=0;
+	private int resetChrono = 0;
 	private CharSequence tempTime = "00:00";
-	long timeWhenStopped=0;
+	long timeWhenStopped = 0;
 	private int hikeUp = 0;
 	GoogleMap map;
-	private int sec=0;
+	private int sec = 0;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		context= this.getActivity();
-		View start = inflater.inflate(R.layout.activity_start, container, false);
-		//location =((TextView) start.findViewById(R.id.textView));
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		context = this.getActivity();
+		View start = inflater
+				.inflate(R.layout.activity_start, container, false);
+		// location =((TextView) start.findViewById(R.id.textView));
 		btnStart = (Button) start.findViewById(R.id.btnStart);
-		
 
 		btnStart.setBackgroundColor(Color.rgb(25, 138, 30));
-		
-		spinner = (Spinner) start.findViewById(R.id.spinner1);
-		//hours = (long) start.findViewById(R.id.);
-		hours = ((TextView) start.findViewById(R.id.hours));
-		
 
-	
-		
-		
+		spinner = (Spinner) start.findViewById(R.id.spinner1);
+		// hours = (long) start.findViewById(R.id.);
+		hours = ((TextView) start.findViewById(R.id.hours));
+
 		loc = new LocationData(this, context);
 		loc.connect();
-		
-		
-		
-		
-		
-	
-		chrono = (Chronometer)start.findViewById(R.id.chronometer1);
-		//chrono.setFormat("00:00:00");
-		//chrono.setBase(SystemClock.elapsedRealtime());
+
+		chrono = (Chronometer) start.findViewById(R.id.chronometer1);
+		// chrono.setFormat("00:00:00");
+		// chrono.setBase(SystemClock.elapsedRealtime());
 		chrono.setVisibility(View.INVISIBLE);
-		map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		map = ((SupportMapFragment) getFragmentManager().findFragmentById(
+				R.id.map)).getMap();
 		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		map.setMyLocationEnabled(true);
 		map.getUiSettings().setCompassEnabled(true);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 5));
 		
 		
-		
+	
 		// On récupère l'élément selectionné dans le spinner
-				spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-				    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				        Object item = parent.getItemAtPosition(pos);
-				        hikeType = spinner.getSelectedItem().toString();
-				    }
-				    public void onNothingSelected(AdapterView<?> parent) {
-				    }
-				});
-		
-		chrono.setOnChronometerTickListener(new OnChronometerTickListener(){
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				Object item = parent.getItemAtPosition(pos);
+				hikeType = spinner.getSelectedItem().toString();
+			}
+
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+
+		chrono.setOnChronometerTickListener(new OnChronometerTickListener() {
 
 			@Override
 			public void onChronometerTick(Chronometer arg0) {
-				
-				long secondes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)%60;		
-				long minutes=(((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60)%60;
-				long heures= ((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/3600;
-				chronometre = heures+"h, "+minutes+"m, "+secondes+"s ";
+
+				long secondes = ((SystemClock.elapsedRealtime() - chrono
+						.getBase()) / 1000) % 60;
+				long minutes = (((SystemClock.elapsedRealtime() - chrono
+						.getBase()) / 1000) / 60) % 60;
+				long heures = ((SystemClock.elapsedRealtime() - chrono
+						.getBase()) / 1000) / 3600;
+				chronometre = heures + "h, " + minutes + "m, " + secondes
+						+ "s ";
 				hours.setText(chronometre);
-				
-			}
-			
-		});
-		
-		
-		
-		/*
-		locTimer.setOnChronometerTickListener(new OnChronometerTickListener(){
 
-			@Override
-			public void onChronometerTick(Chronometer arg0) {
-				tick=tick+1;
-				Toast toastStop1 = Toast.makeText(context, tick, Toast.LENGTH_SHORT);
-				toastStop1.show();
-				//while(tick <= 5){
-				//	map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13));
-				//}
 			}
-			
+
 		});
-			*/	
+
+		/*
+		 * locTimer.setOnChronometerTickListener(new
+		 * OnChronometerTickListener(){
+		 * 
+		 * @Override public void onChronometerTick(Chronometer arg0) {
+		 * tick=tick+1; Toast toastStop1 = Toast.makeText(context, tick,
+		 * Toast.LENGTH_SHORT); toastStop1.show(); //while(tick <= 5){ //
+		 * map.moveCamera
+		 * (CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13)); //}
+		 * }
+		 * 
+		 * });
+		 */
 		// long press button
-		btnStart.setOnLongClickListener(new OnLongClickListener() { 
+		btnStart.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-					// TODO Auto-generated method stub
-				
-				if(hikeUp == 1 ){
-					Toast toastStop = Toast.makeText(context, "La randonnée a duré : " + chrono.getText(), Toast.LENGTH_SHORT);
+				// TODO Auto-generated method stub
+
+				if (hikeUp == 1) {
+					Toast toastStop = Toast.makeText(context,
+							"La randonnée a duré : " + chrono.getText(),
+							Toast.LENGTH_SHORT);
 					toastStop.show();
 					loc.stopHike();
 					btnStart.setText("NOUVELLE RANDONNEE");
-					chrono.setBase(SystemClock.elapsedRealtime()); // on reset à 00:00
+					chrono.setBase(SystemClock.elapsedRealtime()); // on reset à
+																	// 00:00
 					chrono.stop();
 					chronoState = 0;
-					timeWhenStopped =0;					
-				}
-				else{
-					Toast toastErr = Toast.makeText(context, "Erreur : Veuillez lancer une randonnée avant de l'arrêter !", Toast.LENGTH_SHORT);
+					timeWhenStopped = 0;
+				} else {
+					Toast toastErr = Toast
+							.makeText(
+									context,
+									"Erreur : Veuillez lancer une randonnée avant de l'arrêter !",
+									Toast.LENGTH_SHORT);
 					toastErr.show();
 				}
 				hikeUp = 0;
@@ -157,7 +159,7 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				return true;
 			}
 		});
-		// press button		
+		// press button
 		btnStart.setOnClickListener(new View.OnClickListener() {
 			@SuppressLint("NewApi")
 			@Override
@@ -166,78 +168,72 @@ public class StartActivity extends Fragment implements LocationDataInterface {
 				switch (chronoState) {
 				case 0:
 					// START
-					
-					Toast toastStart = Toast.makeText(context, "New hike : "+ hikeType, Toast.LENGTH_SHORT);
+
+					Toast toastStart = Toast.makeText(context, "New hike : "
+							+ hikeType, Toast.LENGTH_SHORT);
 					toastStart.show();
-					chrono.setBase(SystemClock.elapsedRealtime()+timeWhenStopped);
+					chrono.setBase(SystemClock.elapsedRealtime()
+							+ timeWhenStopped);
 					chrono.start();
 					btnStart.setText("PAUSE");
-					btnStart.setBackgroundColor(Color.rgb(255, 153, 0));//jaune
+					btnStart.setBackgroundColor(Color.rgb(255, 153, 0));// jaune
 					chronoState = 1;
 					this.getLocation();
-					map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 13));
-					loc.startHike(hikeType,context);					
+					map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+							loc.getLocationLatLng(), 13));
+					loc.startHike(hikeType, context);
 					break;
-					
-				case 1: 
+
+				case 1:
 					// PAUSE
-					
-					long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
-					
-					Toast toastPause = Toast.makeText(context, "Maintenez appuyer pour Stopper ", Toast.LENGTH_SHORT);
+
+					long minutes = ((SystemClock.elapsedRealtime() - chrono
+							.getBase()) / 1000) / 60;
+
+					Toast toastPause = Toast.makeText(context,
+							"Maintenez appuyer pour Stopper ",
+							Toast.LENGTH_SHORT);
 					toastPause.show();
-					btnStart.setBackgroundColor(Color.YELLOW);//jaune
-					timeWhenStopped = chrono.getBase() - SystemClock.elapsedRealtime();
+					btnStart.setBackgroundColor(Color.YELLOW);// jaune
+					timeWhenStopped = chrono.getBase()
+							- SystemClock.elapsedRealtime();
 					chrono.stop();
 					btnStart.setText("CONTINUE");
 					chronoState = 0;
 					break;
-				}		
-				
-			}
-			private void getLocation() {
-				//location.setText(loc.getLocation());
-				
-			}
-			
+				}
 
-			
+			}
+
+			private void getLocation() {
+				// location.setText(loc.getLocation());
+
+			}
+
 		});
 
-		
-		
-		
-		
 		return start;
 
 	}
-	
-	 
+
 	@Override
 	public void disconnected() {
-		Toast.makeText(this.context,"Location client disconnected",Toast.LENGTH_SHORT).show();	
+		Toast.makeText(this.context, "Location client disconnected",
+				Toast.LENGTH_SHORT).show();
 	}
 
 	public void connectionFailed(ConnectionResult co) {
-		Toast.makeText(this.context, "Connection Failure : " + 
-			      co.getErrorCode(),
-			      Toast.LENGTH_SHORT).show();
-		
-	}
+		Toast.makeText(this.context,
+				"Connection Failure : " + co.getErrorCode(), Toast.LENGTH_SHORT)
+				.show();
 
+	}
 
 	@Override
 	public void updateLocation(LatLng location) {
-		this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocationLatLng(), 15));
-		
-	}
-	
+		this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+				loc.getLocationLatLng(), 15));
 
-	
-	
+	}
 
 }
-
-
-
-
