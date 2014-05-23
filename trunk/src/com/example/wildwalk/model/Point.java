@@ -92,9 +92,14 @@ public class Point {
 		} catch (ParseException e) {
 			retour = null;
 			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
 		}
 		db.close();
 		return retour;
+
 	}
 
 	/**

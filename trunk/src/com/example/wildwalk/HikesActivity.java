@@ -84,13 +84,4 @@ public class HikesActivity extends Fragment {
 		refill(hikeList);
 	}
 	
-	@Override
-	public void onPause(){
-		super.onPause();
-		refill(hikeList);
-	}
-
-
-	
-
 }

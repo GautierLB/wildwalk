@@ -72,7 +72,7 @@ public class LocationData implements
 			Location currentLocation = m_locationClient.getLastLocation();
 			return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 		} else {
-			return new LatLng(45.7500000,4.8500000);
+			return new LatLng(46.76306,2.42472);
 		}
 	}
 
