@@ -13,6 +13,7 @@ import com.example.wildwalk.model.Section;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -40,12 +41,19 @@ public class HikeStatActivity extends FragmentActivity {
 		TextView kmHike = (TextView) findViewById(R.id.kmHike);
 		TextView altitudeHike = (TextView) findViewById(R.id.altitudeHike);
 		TextView speedHike = (TextView) findViewById(R.id.speedHike);
+		TextView timeHike = (TextView) findViewById(R.id.timeHike);
 
 		sectionList = Section.getSectionsForHike(hike.getIdHike(), this);
 		hike.setSections(sectionList);
 		nameHike.setText(hike.getNameHike());
 		dateHike.setText(String.valueOf(hike.getDateHike()));
 		kmHike.setText(String.valueOf(hike.getDistanceHike())+" m");
+		
+		long secondes = ((hike.getLength()) / 1000) % 60;
+		long minutes = ((hike.getLength()/ 1000) / 60) % 60;
+		long heures = (hike.getLength() / 1000) / 3600;
+		
+		timeHike.setText(String.valueOf(heures+"h "+minutes+"m "+secondes+"s"));
 		
 		altitudeHike.setText(String.valueOf(hike.getDifferenceInHeight())+" m");
 		speedHike.setText(String.valueOf(hike.getAverageSpeed())+" km/h");
